@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
         <meta charset="utf-8">
-        <title>Code Tip - cocos2d-x</title>
+        <title>好玩的CocosBuilder</title>
         <link rel="stylesheet" href="http://xyhl515.github.com/theme/css/main.css">
                 
         <!--[if IE]>
@@ -17,16 +17,19 @@
         <header id="banner" class="body">
                 <h1><a href="http://xyhl515.github.com/">Code Tip </a></h1>
                 <nav><ul>
-                                                                                    <li ><a href="http://xyhl515.github.com/category/blog.html">Blog</a></li>
+                                                                                    <li class="active"><a href="http://xyhl515.github.com/category/blog.html">Blog</a></li>
                                                 </ul></nav>
         </header><!-- /#banner -->
-                
-            
+        <section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="http://xyhl515.github.com/hao-wan-de-cocosbuilder.html" rel="bookmark"
+           title="Permalink to 好玩的CocosBuilder">好玩的CocosBuilder</a></h1>
+          </header>
 
-                            <aside id="featured" class="body">
-                <article>
-                    <h1 class="entry-title"><a href="http://xyhl515.github.com/hao-wan-de-cocosbuilder.html">好玩的CocosBuilder</a></h1> 
-                    <footer class="post-info">
+    <div class="entry-content">
+      <footer class="post-info">
         <abbr class="published" title="2013-06-11T00:00:00">
                 二 11 六月 2013
         </abbr>
@@ -36,7 +39,7 @@
         </address>
         <p>In <a href="http://xyhl515.github.com/category/blog.html">Blog</a>. </p>
 <p>tags: <a href="http://xyhl515.github.com/tag/cocosbuilder.html">cocosbuilder</a><a href="http://xyhl515.github.com/tag/cocos2d-x.html">cocos2d-x</a><a href="http://xyhl515.github.com/tag/javascript.html">javascript</a></p>
-</footer><!-- /.post-info --><p>CocosBuilder是一个用于cocos2d的可视化编辑器,属于cocos2d联合发布的一部分。我曾经考虑过用它来做游戏的界面编辑，但是做了个Demo，评估了下之后，还是放弃了这个想法。一方面是感觉CocosBuilder还不太成熟，很多cocos2d的类与方法都不能在CocosBuilder中直接使用，另一方面用cocos2d-x加载ccbi文件之后，需要手动的对场景（或者是节点）里面的成员进行绑定，而我要做的项目单个界面并不复杂，但是界面很多，如果每个界面都手动绑定的话，实际效率上不会有太大的提高,但是项目的复杂度却会大大的增加,再加上当时项目比较紧，没有太多的时间用来学习和尝试CocosBuilder,所以最后选择了放弃。</p>
+</footer><!-- /.post-info -->      <p>CocosBuilder是一个用于cocos2d的可视化编辑器,属于cocos2d联合发布的一部分。我曾经考虑过用它来做游戏的界面编辑，但是做了个Demo，评估了下之后，还是放弃了这个想法。一方面是感觉CocosBuilder还不太成熟，很多cocos2d的类与方法都不能在CocosBuilder中直接使用，另一方面用cocos2d-x加载ccbi文件之后，需要手动的对场景（或者是节点）里面的成员进行绑定，而我要做的项目单个界面并不复杂，但是界面很多，如果每个界面都手动绑定的话，实际效率上不会有太大的提高,但是项目的复杂度却会大大的增加,再加上当时项目比较紧，没有太多的时间用来学习和尝试CocosBuilder,所以最后选择了放弃。</p>
 <p>前段时间被以前的同学拉去参加黑客马拉松，正好有个机会试试CocosBuilder，发现了不少有趣的东西。</p>
 <h3>CocosPlayer</h3>
 <p>在开发ios游戏的时候，由于必须由XCode进行代码编译，所以像Unity这样的跨平台游戏引擎，在进行真机调试之前，都必须先把做好的项目导出成一个XCode项目，然后编译这个XCode项目来进行真机调试。而用过unity的人应该都很清楚，这个导出的过程非常的缓慢。</p>
@@ -100,39 +103,25 @@
 
 
 <p>这样就OK了。js那边的代码可以接收到摇杆事件的回调了！</p>
-<p>关于传null值会报错的问题，有两种处理方法。一种是传一个没用的初始化对象进去，另一种方法是找到报错的地方，把JSB_PRECONDITION2( cobj, cx, JS_FALSE, "Invalid Native Object");这一句代码注释掉。如果第一种方法没法解决的话，再用第二种方法比较好。</p><p>There are <a href="http://xyhl515.github.com/hao-wan-de-cocosbuilder.html#disqus_thread">comments</a>.</p>                </article>
-                            </aside><!-- /#featured -->
-                            <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
-                                                
-
-                 
-                        <li><article class="hentry">    
-                <header>
-                    <h1><a href="http://xyhl515.github.com/post1.html" rel="bookmark"
-                           title="Permalink to 用Cocos2d-x开发Windows游戏">用Cocos2d-x开发Windows游戏</a></h1>
-                </header>
-                
-                <div class="entry-content">
-                <footer class="post-info">
-        <abbr class="published" title="2013-05-04T00:00:00">
-                六 04 五月 2013
-        </abbr>
-
-                <address class="vcard author">
-                By <a class="url fn" href="http://xyhl515.github.com/author/xyhl515.html">xyhl515</a>
-        </address>
-        <p>In <a href="http://xyhl515.github.com/category/blog.html">Blog</a>. </p>
-<p>tags: <a href="http://xyhl515.github.com/tag/cocos2d-x.html">cocos2d-x</a><a href="http://xyhl515.github.com/tag/windows.html">windows</a></p>
-</footer><!-- /.post-info -->                <p>虽然在cocos2d-x支持的平台中包括Windows、Mac、Linux这样的传统电脑平台，但是这些平台只是被视为开发环境而存在的，对于在这些平台上面发布游戏 ...</p>
-                <a class="readmore" href="http://xyhl515.github.com/post1.html">read more</a>
-                <p>There are <a href="http://xyhl515.github.com/post1.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
-            </article></li>
-                            </ol><!-- /#posts-list -->
-                                                    </section><!-- /#content -->
-                    <section id="extras" class="body">
+<p>关于传null值会报错的问题，有两种处理方法。一种是传一个没用的初始化对象进去，另一种方法是找到报错的地方，把JSB_PRECONDITION2( cobj, cx, JS_FALSE, "Invalid Native Object");这一句代码注释掉。如果第一种方法没法解决的话，再用第二种方法比较好。</p>
+    </div><!-- /.entry-content -->
+        <div class="comments">
+      <h2>Comments !</h2>
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        var disqus_identifier = "hao-wan-de-cocosbuilder.html";
+        var disqus_url = "http://xyhl515.github.com/hao-wan-de-cocosbuilder.html";
+        (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://codetip.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+    </div>
+    
+  </article>
+</section>
+        <section id="extras" class="body">
                         </section><!-- /#extras -->
 
         <footer id="contentinfo" class="body">

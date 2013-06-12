@@ -40,7 +40,7 @@
 <h3><strong>输入</strong></h3>
 <p>手机游戏与电脑游戏最大的区别是输入方式的不同，手机主要靠触摸屏输入，而电脑主要使用鼠标、键盘，cocos2d-x本身可以通过触摸屏的方式来接收鼠标输入，所以我们要做的就是让cocos2d-x能够接收键盘输入。</p>
 <h5><strong>AccelerometerKeyHook</strong></h5>
-<p>通过跟进查看cocos2d-x的源代码，我们不难发现触摸屏的消息处理函数(ccTouchesBegan之类的)是由CCTouchDispatcher调用的，而CCTouchDispatcher的消息处理函数又是由CCEGLView调用的，在CCEGLView里面我们找到了WindowProc(UINT,WPARAM,LPARAM)这个函数，玩过Windows编程的同学都兴奋起来了吧。没错，这货就是用来接收各种窗口消息的，通过在这个函数里面处理WM_KEYDOWN、WM_KEYUP、WM_CHAR等消息，我们就可以达到响应键盘输入的目的。</p>
+<p>通过跟进查看cocos2d-x的源代码，我们不难发现触摸屏的消息处理函数(ccTouchesBegan之类的)是由CCTouchDispatcher调用的，而CCTouchDispatcher的消息处理函数又是由CCEGLView调用的，在CCEGLView里面我们找到了WindowProc( UINT , WPARAM , LPARAM )这个函数，玩过Windows编程的同学都兴奋起来了吧。没错，这货就是用来接收各种窗口消息的，通过在这个函数里面处理WM_KEYDOWN、WM_KEYUP、WM_CHAR等消息，我们就可以达到响应键盘输入的目的。</p>
 <p>但是慢着，直接在WindowProc函数里面处理键盘消息会破坏引擎的源代码，而且不方便代码重用。查看WindowProc函数，发现WM_KEYDOWN、WM_KEYUP、WM_CHAR等消息都会调用一个叫做m_lpfnAccelerometerKeyHook的钩子函数：</p>
 <div class="highlight"><pre><span class="k">if</span><span class="p">(</span><span class="n">m_lpfnAccelerometerKeyHook</span><span class="o">!=</span><span class="nb">NULL</span><span class="p">)</span>
 <span class="p">{</span>
@@ -58,6 +58,7 @@
 <div class="highlight"><pre><span class="c1">//声明函数</span>
 <span class="k">void</span> <span class="n">wndKeyProc</span><span class="p">(</span><span class="no">UINT</span> <span class="n">message</span><span class="p">,</span><span class="no">WPARAM</span> <span class="n">wParam</span><span class="p">,</span><span class="no">LPARAM</span> <span class="n">kParam</span><span class="p">)</span>
 <span class="p">{</span>
+    <span class="c1">//TODO</span>
 <span class="p">}</span>
 
 <span class="c1">//设置函数</span>
