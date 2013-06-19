@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
         <meta charset="utf-8">
-        <title>Code Tip - cocosbuilder</title>
+        <title>CocosBuilder中的javascript继承问题</title>
         <link rel="stylesheet" href="http://xyhl515.github.com/theme/css/main.css">
                 
         <!--[if IE]>
@@ -17,16 +17,19 @@
         <header id="banner" class="body">
                 <h1><a href="http://xyhl515.github.com/">Code Tip </a></h1>
                 <nav><ul>
-                                                                                    <li ><a href="http://xyhl515.github.com/category/blog.html">Blog</a></li>
+                                                                                    <li class="active"><a href="http://xyhl515.github.com/category/blog.html">Blog</a></li>
                                                 </ul></nav>
         </header><!-- /#banner -->
-                
-            
+        <section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="http://xyhl515.github.com/cocosbuilderzhong-de-javascriptji-cheng-wen-ti.html" rel="bookmark"
+           title="Permalink to CocosBuilder中的javascript继承问题">CocosBuilder中的javascript继承问题</a></h1>
+          </header>
 
-                            <aside id="featured" class="body">
-                <article>
-                    <h1 class="entry-title"><a href="http://xyhl515.github.com/cocosbuilderzhong-de-javascriptji-cheng-wen-ti.html">CocosBuilder中的javascript继承问题</a></h1> 
-                    <footer class="post-info">
+    <div class="entry-content">
+      <footer class="post-info">
         <abbr class="published" title="2013-06-19T00:00:00">
                 三 19 六月 2013
         </abbr>
@@ -36,7 +39,7 @@
         </address>
         <p>In <a href="http://xyhl515.github.com/category/blog.html">Blog</a>. </p>
 <p>tags: <a href="http://xyhl515.github.com/tag/cocosbuilder.html">cocosbuilder</a><a href="http://xyhl515.github.com/tag/cocos2d-x.html">cocos2d-x</a><a href="http://xyhl515.github.com/tag/javascript.html">javascript</a></p>
-</footer><!-- /.post-info --><p>由于在同一游戏中，不同关卡在玩法上有许多相同的地方，为了能够让代码复用以简化编程，我往往会把相同的部分放在一个关卡原型里，让不同的卡关能够继承它。然而，javascript本身没有类与继承的概念，这就需要用其它的方法来模拟继承，其中，最为常见的一种方法就是使用原型（prototype）。</p>
+</footer><!-- /.post-info -->      <p>由于在同一游戏中，不同关卡在玩法上有许多相同的地方，为了能够让代码复用以简化编程，我往往会把相同的部分放在一个关卡原型里，让不同的卡关能够继承它。然而，javascript本身没有类与继承的概念，这就需要用其它的方法来模拟继承，其中，最为常见的一种方法就是使用原型（prototype）。</p>
 <p>在网上查了些文章与例子之后，我在CocosBuiler中写下的代码大概是这样子的：</p>
 <div class="highlight"><pre><span class="kd">var</span> <span class="nx">Level1</span><span class="o">=</span><span class="kd">function</span><span class="p">()</span> <span class="p">{};</span>
 <span class="nx">Level1</span><span class="p">.</span><span class="nx">prototype</span><span class="o">=</span><span class="k">new</span> <span class="nx">LevelBase</span><span class="p">();</span>
@@ -79,39 +82,25 @@
 </pre></div>
 
 
-<p>运行，问题解决了！</p><p>There are <a href="http://xyhl515.github.com/cocosbuilderzhong-de-javascriptji-cheng-wen-ti.html#disqus_thread">comments</a>.</p>                </article>
-                            </aside><!-- /#featured -->
-                            <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
-                                                
-
-                 
-                        <li><article class="hentry">    
-                <header>
-                    <h1><a href="http://xyhl515.github.com/hao-wan-de-cocosbuilder.html" rel="bookmark"
-                           title="Permalink to 好玩的CocosBuilder">好玩的CocosBuilder</a></h1>
-                </header>
-                
-                <div class="entry-content">
-                <footer class="post-info">
-        <abbr class="published" title="2013-06-11T00:00:00">
-                二 11 六月 2013
-        </abbr>
-
-                <address class="vcard author">
-                By <a class="url fn" href="http://xyhl515.github.com/author/xyhl515.html">xyhl515</a>
-        </address>
-        <p>In <a href="http://xyhl515.github.com/category/blog.html">Blog</a>. </p>
-<p>tags: <a href="http://xyhl515.github.com/tag/cocosbuilder.html">cocosbuilder</a><a href="http://xyhl515.github.com/tag/cocos2d-x.html">cocos2d-x</a><a href="http://xyhl515.github.com/tag/javascript.html">javascript</a></p>
-</footer><!-- /.post-info -->                <p>CocosBuilder是一个用于cocos2d的可视化编辑器,属于cocos2d联合发布的一部分。我曾经考虑过用它来做游戏的界面编辑，但是做了个Demo，评估了下之后 ...</p>
-                <a class="readmore" href="http://xyhl515.github.com/hao-wan-de-cocosbuilder.html">read more</a>
-                <p>There are <a href="http://xyhl515.github.com/hao-wan-de-cocosbuilder.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
-            </article></li>
-                            </ol><!-- /#posts-list -->
-                                                    </section><!-- /#content -->
-                    <section id="extras" class="body">
+<p>运行，问题解决了！</p>
+    </div><!-- /.entry-content -->
+        <div class="comments">
+      <h2>Comments !</h2>
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        var disqus_identifier = "cocosbuilderzhong-de-javascriptji-cheng-wen-ti.html";
+        var disqus_url = "http://xyhl515.github.com/cocosbuilderzhong-de-javascriptji-cheng-wen-ti.html";
+        (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://codetip.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+    </div>
+    
+  </article>
+</section>
+        <section id="extras" class="body">
                         </section><!-- /#extras -->
 
         <footer id="contentinfo" class="body">

@@ -25,8 +25,77 @@
 
                             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="http://xyhl515.github.com/hao-wan-de-cocosbuilder.html">好玩的CocosBuilder</a></h1> 
+                    <h1 class="entry-title"><a href="http://xyhl515.github.com/cocosbuilderzhong-de-javascriptji-cheng-wen-ti.html">CocosBuilder中的javascript继承问题</a></h1> 
                     <footer class="post-info">
+        <abbr class="published" title="2013-06-19T00:00:00">
+                三 19 六月 2013
+        </abbr>
+
+                <address class="vcard author">
+                By <a class="url fn" href="http://xyhl515.github.com/author/xyhl515.html">xyhl515</a>
+        </address>
+        <p>In <a href="http://xyhl515.github.com/category/blog.html">Blog</a>. </p>
+<p>tags: <a href="http://xyhl515.github.com/tag/cocosbuilder.html">cocosbuilder</a><a href="http://xyhl515.github.com/tag/cocos2d-x.html">cocos2d-x</a><a href="http://xyhl515.github.com/tag/javascript.html">javascript</a></p>
+</footer><!-- /.post-info --><p>由于在同一游戏中，不同关卡在玩法上有许多相同的地方，为了能够让代码复用以简化编程，我往往会把相同的部分放在一个关卡原型里，让不同的卡关能够继承它。然而，javascript本身没有类与继承的概念，这就需要用其它的方法来模拟继承，其中，最为常见的一种方法就是使用原型（prototype）。</p>
+<p>在网上查了些文章与例子之后，我在CocosBuiler中写下的代码大概是这样子的：</p>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">Level1</span><span class="o">=</span><span class="kd">function</span><span class="p">()</span> <span class="p">{};</span>
+<span class="nx">Level1</span><span class="p">.</span><span class="nx">prototype</span><span class="o">=</span><span class="k">new</span> <span class="nx">LevelBase</span><span class="p">();</span>
+<span class="nx">Level1</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">constructor</span><span class="o">=</span><span class="nx">Level1</span><span class="p">;</span>
+<span class="nx">Level1</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">onDidLoadFromCCB</span><span class="o">=</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">LevelBase</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">onDidLoadFromCCB</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span><span class="nx">arguments</span><span class="p">);</span>
+    <span class="c1">//Do Something</span>
+<span class="p">};</span>
+</pre></div>
+
+
+<p>第一次运行没问题，然而重玩本关的时候，在一个CCB节点的控制器类中报"Invalid Native Object"错误，报错的地方是调用了该控制器的rootNode的getPosition()函数：</p>
+<div class="highlight"><pre><span class="n">this</span><span class="p">.</span><span class="n">rootNode</span><span class="p">.</span><span class="n">getPosition</span><span class="p">()</span>
+</pre></div>
+
+
+<p>在C++中找到相应的报错语句是这样的：</p>
+<div class="highlight"><pre><span class="n">JSObject</span> <span class="o">*</span><span class="n">obj</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+<span class="n">cocos2d</span><span class="o">::</span><span class="n">CCNode</span><span class="o">*</span> <span class="n">cobj</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+<span class="n">obj</span> <span class="o">=</span> <span class="n">JS_THIS_OBJECT</span><span class="p">(</span><span class="n">cx</span><span class="p">,</span> <span class="n">vp</span><span class="p">);</span>
+<span class="kt">js_proxy_t</span> <span class="o">*</span><span class="n">proxy</span><span class="p">;</span> <span class="n">JS_GET_NATIVE_PROXY</span><span class="p">(</span><span class="n">proxy</span><span class="p">,</span> <span class="n">obj</span><span class="p">);</span>
+<span class="n">cobj</span> <span class="o">=</span> <span class="p">(</span><span class="n">cocos2d</span><span class="o">::</span><span class="n">CCNode</span> <span class="o">*</span><span class="p">)(</span><span class="n">proxy</span> <span class="o">?</span> <span class="n">proxy</span><span class="o">-&gt;</span><span class="n">ptr</span> <span class="o">:</span> <span class="nb">NULL</span><span class="p">);</span>
+<span class="n">JSB_PRECONDITION2</span><span class="p">(</span> <span class="n">cobj</span><span class="p">,</span> <span class="n">cx</span><span class="p">,</span> <span class="n">JS_FALSE</span><span class="p">,</span> <span class="s">&quot;Invalid Native Object&quot;</span><span class="p">);</span>
+</pre></div>
+
+
+<p>这样看报错的原因只有可能是rootNode出了问题，于是把rootNode打印出来，结果显示确实是Sprite类型没错。那么是本地取this对象的时候出了问题?SpiderMonkey、CocosBuilder、cocos2d-x的Javascript binding都有可能与这个问题有关，从底层入手有点大海捞针的感觉，那么就从顶层的逻辑入手。</p>
+<p>既然是重玩本关的时候出错，首先要考虑的就是有些地方没有释放，接下来做了些测试，发现把要继承的代码直接写在关卡类里面，不经过继承就不会出现这个问题，重新审视那段继承的代码，想会不会是因为用了LevelBase的实例作原型，导致这个LevelBase实例连带里面成员一起没有释放，所以才出现了这个问题。</p>
+<p>抱着姑且一试的心情，把上面那段继承的代码改成：</p>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">Level1</span><span class="o">=</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">LevelBase</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span><span class="nx">arguments</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">onDidLoadFromCCB</span><span class="o">=</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">LevelBase</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">onDidLoadFromCCB</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span><span class="nx">arguments</span><span class="p">);</span>
+    <span class="c1">//Do Something</span>
+    <span class="p">};</span>
+<span class="p">};</span>
+
+<span class="nx">Level1</span><span class="p">.</span><span class="nx">prototype</span><span class="o">=</span><span class="nx">LevelBase</span><span class="p">.</span><span class="nx">prototype</span><span class="p">;</span>
+<span class="nx">Level1</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">constructor</span><span class="o">=</span><span class="nx">Level1</span><span class="p">;</span>
+</pre></div>
+
+
+<p>运行，问题解决了！</p><p>There are <a href="http://xyhl515.github.com/cocosbuilderzhong-de-javascriptji-cheng-wen-ti.html#disqus_thread">comments</a>.</p>                </article>
+                            </aside><!-- /#featured -->
+                            <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+                                                
+
+                 
+                        <li><article class="hentry">    
+                <header>
+                    <h1><a href="http://xyhl515.github.com/hao-wan-de-cocosbuilder.html" rel="bookmark"
+                           title="Permalink to 好玩的CocosBuilder">好玩的CocosBuilder</a></h1>
+                </header>
+                
+                <div class="entry-content">
+                <footer class="post-info">
         <abbr class="published" title="2013-06-11T00:00:00">
                 二 11 六月 2013
         </abbr>
@@ -36,74 +105,12 @@
         </address>
         <p>In <a href="http://xyhl515.github.com/category/blog.html">Blog</a>. </p>
 <p>tags: <a href="http://xyhl515.github.com/tag/cocosbuilder.html">cocosbuilder</a><a href="http://xyhl515.github.com/tag/cocos2d-x.html">cocos2d-x</a><a href="http://xyhl515.github.com/tag/javascript.html">javascript</a></p>
-</footer><!-- /.post-info --><p>CocosBuilder是一个用于cocos2d的可视化编辑器,属于cocos2d联合发布的一部分。我曾经考虑过用它来做游戏的界面编辑，但是做了个Demo，评估了下之后，还是放弃了这个想法。一方面是感觉CocosBuilder还不太成熟，很多cocos2d的类与方法都不能在CocosBuilder中直接使用，另一方面用cocos2d-x加载ccbi文件之后，需要手动的对场景（或者是节点）里面的成员进行绑定，而我要做的项目单个界面并不复杂，但是界面很多，如果每个界面都手动绑定的话，实际效率上不会有太大的提高,但是项目的复杂度却会大大的增加,再加上当时项目比较紧，没有太多的时间用来学习和尝试CocosBuilder,所以最后选择了放弃。</p>
-<p>前段时间被以前的同学拉去参加黑客马拉松，正好有个机会试试CocosBuilder，发现了不少有趣的东西。</p>
-<h3>CocosPlayer</h3>
-<p>在开发ios游戏的时候，由于必须由XCode进行代码编译，所以像Unity这样的跨平台游戏引擎，在进行真机调试之前，都必须先把做好的项目导出成一个XCode项目，然后编译这个XCode项目来进行真机调试。而用过unity的人应该都很清楚，这个导出的过程非常的缓慢。</p>
-<p>相比之下，CocosPlayer的出现给了用CocosBuilder开发游戏的人一个方便、快捷的真机测试途径。它的原理是通过wifi,CocosBuilder直接把ccbi、js以及资源文件发布给真机上运行的CocosPlayer,CocosPlayer接受完毕之后，运行js文件来开始游戏。这样省去了导出和编译的步骤，只需要一次wifi传输即可。(当然CocosPlayer本身的编译过程还是要有的，只是这个编译并不频繁，一般只是在你第一次运行或者修改本地代码的时候才需要执行)</p>
-<h3>一键发布</h3>
-<p>CocosBuilder支持一键发布多平台（ios、android、html5）应用，并且会自动把resources-auto文件夹里面的图片进行缩放，来适配不同的屏幕大小。（不过似乎没有考虑到iphone5?）</p>
-<h3>用CocosBuilder来制作图集</h3>
-<p>对于cocos2d开发者来说，最常用的制作图集的方法莫过于TexturePacker了，只不过TexturePacker是收费的，对于图集要求不高的朋友可以试试用CocosBuilder来制作图集。CocosBuilder的这个功能并不是独立出来的，而是附加在发布功能上面，把要制作成图集的图片放在一个文件夹下面，CocosBuilder中右键该文件夹，选择Make Smart Sprite Sheet，然后发布项目，之后在发布出来的文件夹里面就能找到图集的.plist与.png文件了^_^当然，这种方法有点旁门左道了，而且可供选择的功能远远不如TexturePacker那么多，正式制作游戏的时候还是花点钱用TexturePacker为好。</p>
-<h3>Javascript binding</h3>
-<p>剩下的诸如场景制作、动画制作、粒子特效都是CocosBuilder的传统功能了，看官方文档即可，无需多讲，最后来说说Javascript绑定。在CocosBuilder中可以通过javascript来编写游戏，使用mvc方式进行交互,即需要交互的ccb文件指定一个js类来作为其控制器，ccb文件中的成员和方法都可以由这个指定的类进行控制和实现。cocos2d使用SpiderMonkey作为其JS引擎，所以标准的js语法和库都能够支持，同时cocos2d为自己的本地代码提供了jsb接口，所以大多数cocos2d中的类与方法也可以用js直接调用（注意：不是全部）,并且还提供了jsb接口的<a href="https://github.com/cocos2d/bindings-generator">生成工具</a>让我们能够为自己的本地代码做js绑定。于是我就帮我的<a href="https://github.com/xyhl515/Erratic/tree/master/Joystick">摇杆</a>添加了js绑定，在添加的过程中遇到了一些问题，我相信这些问题也是现在js绑定存在的一些主要问题，下面来具体说一下。</p>
-<p>根据cocos2d-x官方的说法，这个jsb生成工具的有一些限制，比如函数不能有可变参数、参数不能有默认值、delegate需要手动绑定。根据我的使用经验，还发现一个限制就是不能传null值给函数。前两个限制还好解决，改变一下函数写法就好了，后面两个就比较蛋疼了。先说delegate的问题，由于摇杆需要在玩家的操作之后做出一系列的回调处理，但是delegate本身是c++的代码，它回调的对象是js的代码，而生成工具无法判断出delegate,所以回调的一律是c++代码，所以遇到要回调js的delegate,我们就得靠自己来绑定，至于怎么自己绑定官方文档没写，谷歌也不知道。</p>
-<p>我查看了cocos2d-x自己做的手动绑定，发现大致的流程是这样的：先把需要手动绑定的代码在jsb生成工具的配置文件中禁掉，接着为delegate编写一个代理类，这个代理类主要把delegate的回调跟js那边的代码关联起来，然后把delegate的对象实例替换成代理类的，最后注册手动绑定的方法。</p>
-<p>以我为摇杆做的js绑定为例，在配置文件中把我们需要手动绑定的部分禁掉：</p>
-<div class="highlight"><pre><span class="n">classes</span><span class="o">=</span><span class="n">Joystick</span>
-<span class="cp">#...</span>
-<span class="n">skip</span> <span class="o">=</span> <span class="n">Joystick</span><span class="o">::</span><span class="p">[</span><span class="n">setDelegate</span><span class="p">]</span>
-</pre></div>
-
-
-<p>编写delegate的代理类：</p>
-<div class="highlight"><pre><span class="n">class</span> <span class="n">JSB_JoystickDelegate</span> <span class="o">:</span> <span class="n">public</span> <span class="n">JoystickDelegate</span>
-<span class="p">{</span>
-<span class="nl">public:</span>
-    <span class="n">virtual</span> <span class="kt">void</span> <span class="n">onRock</span><span class="p">(</span><span class="n">ysDirection</span> <span class="n">director</span><span class="p">,</span><span class="n">CCPoint</span> <span class="n">vector</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="n">jsval</span> <span class="n">arg</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
-            <span class="n">arg</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="n">INT_TO_JSVAL</span><span class="p">(</span><span class="n">director</span><span class="p">);</span>
-                <span class="n">arg</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="n">ccpoint_to_jsval</span><span class="p">(</span><span class="n">ScriptingCore</span><span class="o">::</span><span class="n">getInstance</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">getGlobalContext</span><span class="p">(),</span> <span class="n">vector</span><span class="p">);</span>
-                <span class="n">ScriptingCore</span><span class="o">::</span><span class="n">getInstance</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">executeFunctionWithOwner</span><span class="p">(</span><span class="n">OBJECT_TO_JSVAL</span><span class="p">(</span><span class="n">m_pJSDelegate</span><span class="p">),</span> <span class="s">&quot;onRock&quot;</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">arg</span><span class="p">,</span><span class="nb">NULL</span><span class="p">);</span>
-    <span class="p">}</span>
-
-    <span class="n">virtual</span> <span class="kt">void</span> <span class="n">onRockEnd</span><span class="p">()</span>
-    <span class="p">{</span>
-        <span class="n">ScriptingCore</span><span class="o">::</span><span class="n">getInstance</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">executeFunctionWithOwner</span><span class="p">(</span><span class="n">OBJECT_TO_JSVAL</span><span class="p">(</span><span class="n">m_pJSDelegate</span><span class="p">),</span><span class="s">&quot;onRockEnd&quot;</span><span class="p">);</span>
-    <span class="p">}</span>
-
-    <span class="kt">void</span> <span class="n">setJSDelegate</span><span class="p">(</span><span class="n">JSObject</span> <span class="o">*</span><span class="n">sender</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="n">m_pJSDelegate</span><span class="o">=</span><span class="n">sender</span><span class="p">;</span>
-    <span class="p">}</span>
-<span class="nl">private:</span>
-    <span class="n">JSObject</span><span class="o">*</span> <span class="n">m_pJSDelegate</span><span class="p">;</span>
-<span class="p">};</span>
-</pre></div>
-
-
-<p>替换代理类实例：</p>
-<div class="highlight"><pre><span class="n">JSB_JoystickDelegate</span><span class="o">*</span> <span class="n">nativeDelegate</span> <span class="o">=</span> <span class="n">new</span> <span class="n">JSB_JoystickDelegate</span><span class="p">();</span>
-    <span class="n">nativeDelegate</span><span class="o">-&gt;</span><span class="n">setJSDelegate</span><span class="p">(</span><span class="n">jsDelegate</span><span class="p">);</span>
-    <span class="n">cobj</span><span class="o">-&gt;</span><span class="n">setDelegate</span><span class="p">(</span><span class="n">nativeDelegate</span><span class="p">);</span>
-</pre></div>
-
-
-<p>注册函数：</p>
-<div class="highlight"><pre><span class="k">extern</span> <span class="n">JSObject</span> <span class="o">*</span><span class="n">jsb_Joystick_prototype</span><span class="p">;</span>
-<span class="kt">void</span> <span class="nf">register_all_joystick_manual</span><span class="p">(</span><span class="n">JSContext</span> <span class="o">*</span><span class="n">cx</span><span class="p">,</span><span class="n">JSObject</span> <span class="o">*</span><span class="n">global</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="n">JS_DefineFunction</span><span class="p">(</span><span class="n">cx</span><span class="p">,</span> <span class="n">jsb_Joystick_prototype</span><span class="p">,</span> <span class="s">&quot;setDelegate&quot;</span><span class="p">,</span> <span class="n">js_joystick_Joystick_setDelegate</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">JSPROP_READONLY</span><span class="o">|</span><span class="n">JSPROP_PERMANENT</span><span class="p">);</span>
-<span class="p">}</span>
-</pre></div>
-
-
-<p>这样就OK了。js那边的代码可以接收到摇杆事件的回调了！</p>
-<p>关于传null值会报错的问题，有两种处理方法。一种是传一个没用的初始化对象进去，另一种方法是找到报错的地方，把JSB_PRECONDITION2( cobj, cx, JS_FALSE, "Invalid Native Object");这一句代码注释掉。如果第一种方法没法解决的话，再用第二种方法比较好。</p><p>There are <a href="http://xyhl515.github.com/hao-wan-de-cocosbuilder.html#disqus_thread">comments</a>.</p>                </article>
-                                                                </aside><!-- /#featured -->
-                                                </ol><!-- /#posts-list -->
-                        </section><!-- /#content -->
+</footer><!-- /.post-info -->                <p>CocosBuilder是一个用于cocos2d的可视化编辑器,属于cocos2d联合发布的一部分。我曾经考虑过用它来做游戏的界面编辑，但是做了个Demo，评估了下之后 ...</p>
+                <a class="readmore" href="http://xyhl515.github.com/hao-wan-de-cocosbuilder.html">read more</a>
+                <p>There are <a href="http://xyhl515.github.com/hao-wan-de-cocosbuilder.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
+                            </ol><!-- /#posts-list -->
+                                                    </section><!-- /#content -->
                     <section id="extras" class="body">
                         </section><!-- /#extras -->
 
