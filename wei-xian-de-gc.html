@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+        <meta charset="utf-8">
+        <title>危险的GC</title>
+        <link rel="stylesheet" href="http://xyhl515.github.com/theme/css/main.css">
+                
+        <!--[if IE]>
+            <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+<a href="http://github.com/xyhl515">
+<img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub" />
+</a>
+        <header id="banner" class="body">
+                <h1><a href="http://xyhl515.github.com/">Code Tip </a></h1>
+                <nav><ul>
+                                                                                    <li class="active"><a href="http://xyhl515.github.com/category/blog.html">Blog</a></li>
+                                                </ul></nav>
+        </header><!-- /#banner -->
+        <section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="http://xyhl515.github.com/wei-xian-de-gc.html" rel="bookmark"
+           title="Permalink to 危险的GC">危险的GC</a></h1>
+          </header>
+
+    <div class="entry-content">
+      <footer class="post-info">
+        <abbr class="published" title="2013-06-24T00:00:00">
+                一 24 六月 2013
+        </abbr>
+
+                <address class="vcard author">
+                By <a class="url fn" href="http://xyhl515.github.com/author/xyhl515.html">xyhl515</a>
+        </address>
+        <p>In <a href="http://xyhl515.github.com/category/blog.html">Blog</a>. </p>
+<p>tags: <a href="http://xyhl515.github.com/tag/cocosbuilder.html">cocosbuilder</a><a href="http://xyhl515.github.com/tag/cocos2d-x.html">cocos2d-x</a><a href="http://xyhl515.github.com/tag/javascript.html">javascript</a></p>
+</footer><!-- /.post-info -->      <p>在用cocos2d-javascript binding作游戏的时候遇到一个莫名其妙崩溃的问题，调用堆栈显示是在GC的时候,执行一个叫做MarkObjectRoot的函数，发生了EXC_BAD_ACCESS错误。</p>
+<p>于是查找了些关于ObjectRoot的信息，这东西主要是为了防止SpiderMonkey执行GC操作的时候把还在使用的Object引用清除掉而存在的，不少地方都在第一次使用Object的时候调用了JS_AddNamedObjectRoot/JS_AddObjectRoot函数，并在释放Object的时候调用JS_RemoveObjectRoot函数。</p>
+<p>联系到前面的错误，很有可能是在什么地方使用Object的时候调用了AddNamedObjectRoot/JS_AddObjectRoot函数，但是在释放的时候没有调用相应的JS_RemoveObjectRoot函数，于是SpiderMonkey并不知道这个Object已经被释放了，GC的时候仍然对它执行了MarkObjectRoot操作，从而引发了这个crash。</p>
+<p>虽然找到了方向，但是cocos2d-x代码中用到Add/Remove ObjectRoot的地方实在太多了，一个个查起来非常的浪费时间，于是反过来使用排除法，把代码注释到不再出现这个问题为止，然后一段一段地还原，找到了这个问题跟addCollisionHandler方法有关。查看本地代码，__jsb_cpSpace_addCollisionHandler这个方法里面确实调用了JS_AddNamedObjectRoot函数，然而JSB_cpSpace_finalize方法里面也调用了相应的JS_RemoveObjectRoot函数，按理说应该没问题才对。</p>
+<p>接着打断点调试，addCollisionHandler方法是在每一关初始化物理环境的时候调用的，这次为了调试方便，我在一关玩完后会执行一次强制GC，发现从第一次玩初始化物理环境，到重玩本关的时候第二次初始化物理环境时（也就是第二次调用addCollisionHandler时），再到第二次玩完本关GC时，JSB_cpSpace_finalize函数都一直没有被调用到,而就在第二次GC的时候，程序崩溃。看来跟我前面猜得差不多，CollisionHandler在第一次GC的时候已经被释放掉了，但是SpiderMonkey不知道，于是第二次GC的时候直接崩溃，在代码里面手动添加了removeCollsionHandler之后，果然没问题了。</p>
+    </div><!-- /.entry-content -->
+        <div class="comments">
+      <h2>Comments !</h2>
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        var disqus_identifier = "wei-xian-de-gc.html";
+        var disqus_url = "http://xyhl515.github.com/wei-xian-de-gc.html";
+        (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://codetip.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+    </div>
+    
+  </article>
+</section>
+        <section id="extras" class="body">
+                        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+<script type="text/javascript">
+    var disqus_shortname = 'codetip';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

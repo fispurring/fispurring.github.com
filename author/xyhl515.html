@@ -105,7 +105,7 @@
         </address>
         <p>In <a href="http://xyhl515.github.com/category/blog.html">Blog</a>. </p>
 <p>tags: <a href="http://xyhl515.github.com/tag/cocosbuilder.html">cocosbuilder</a><a href="http://xyhl515.github.com/tag/cocos2d-x.html">cocos2d-x</a><a href="http://xyhl515.github.com/tag/javascript.html">javascript</a></p>
-</footer><!-- /.post-info -->                <p>CocosBuilder是一个用于cocos2d的可视化编辑器,属于cocos2d联合发布的一部分。我曾经考虑过用它来做游戏的界面编辑，但是做了个Demo，评估了下之后 ...</p>
+</footer><!-- /.post-info -->                <p>CocosBuilder是一个用于cocos2d的可视化编辑器,属于cocos2d联合发布的一部分。我曾经考虑过用它来做游戏的界面编辑，但是做了个Demo，评估了下之后，还是放弃了这个想法。一方面是感觉CocosBuilder还不太成熟，很多cocos2d的类与方法都不能在CocosBuilder中直接使用，另一方面用cocos2d-x加载ccbi文件之后，需要手动的对场景 ...</p>
                 <a class="readmore" href="http://xyhl515.github.com/hao-wan-de-cocosbuilder.html">read more</a>
                 <p>There are <a href="http://xyhl515.github.com/hao-wan-de-cocosbuilder.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
             </article></li>
@@ -129,9 +129,34 @@
         </address>
         <p>In <a href="http://xyhl515.github.com/category/blog.html">Blog</a>. </p>
 <p>tags: <a href="http://xyhl515.github.com/tag/cocos2d-x.html">cocos2d-x</a><a href="http://xyhl515.github.com/tag/windows.html">windows</a></p>
-</footer><!-- /.post-info -->                <p>虽然在cocos2d-x支持的平台中包括Windows、Mac、Linux这样的传统电脑平台，但是这些平台只是被视为开发环境而存在的，对于在这些平台上面发布游戏 ...</p>
+</footer><!-- /.post-info -->                <p>虽然在cocos2d-x支持的平台中包括Windows、Mac、Linux这样的传统电脑平台，但是这些平台只是被视为开发环境而存在的，对于在这些平台上面发布游戏，cocos2d-x本身没有提供官方的解决方案。然而，这些平台（尤其是Windows）拥有的用户数量不可忽视 ...</p>
                 <a class="readmore" href="http://xyhl515.github.com/post1.html">read more</a>
                 <p>There are <a href="http://xyhl515.github.com/post1.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
+                            
+
+                 
+                        <li><article class="hentry">    
+                <header>
+                    <h1><a href="http://xyhl515.github.com/wei-xian-de-gc.html" rel="bookmark"
+                           title="Permalink to 危险的GC">危险的GC</a></h1>
+                </header>
+                
+                <div class="entry-content">
+                <footer class="post-info">
+        <abbr class="published" title="2013-06-24T00:00:00">
+                一 24 六月 2013
+        </abbr>
+
+                <address class="vcard author">
+                By <a class="url fn" href="http://xyhl515.github.com/author/xyhl515.html">xyhl515</a>
+        </address>
+        <p>In <a href="http://xyhl515.github.com/category/blog.html">Blog</a>. </p>
+<p>tags: <a href="http://xyhl515.github.com/tag/cocosbuilder.html">cocosbuilder</a><a href="http://xyhl515.github.com/tag/cocos2d-x.html">cocos2d-x</a><a href="http://xyhl515.github.com/tag/javascript.html">javascript</a></p>
+</footer><!-- /.post-info -->                <p>在用cocos2d-javascript binding作游戏的时候遇到一个莫名其妙崩溃的问题，调用堆栈显示是在GC的时候,执行一个叫做MarkObjectRoot的函数，发生了EXC_BAD_ACCESS错误。</p>
+<p>于是查找了些关于ObjectRoot的信息，这东西主要是为了防止SpiderMonkey执行GC操作的时候把还在使用的Object引用清除掉而存在的，不少地方都在第一次使用Object的时候调用了JS_AddNamedObjectRoot/JS_AddObjectRoot函数，并在释放Object的时候调用JS_RemoveObjectRoot函数 ...</p>
+                <a class="readmore" href="http://xyhl515.github.com/wei-xian-de-gc.html">read more</a>
+                <p>There are <a href="http://xyhl515.github.com/wei-xian-de-gc.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
             </article></li>
                             </ol><!-- /#posts-list -->
                                                     </section><!-- /#content -->

@@ -25,8 +25,38 @@
 
                             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="http://xyhl515.github.com/cocosbuilderzhong-de-javascriptji-cheng-wen-ti.html">CocosBuilder中的javascript继承问题</a></h1> 
+                    <h1 class="entry-title"><a href="http://xyhl515.github.com/wei-xian-de-gc.html">危险的GC</a></h1> 
                     <footer class="post-info">
+        <abbr class="published" title="2013-06-24T00:00:00">
+                一 24 六月 2013
+        </abbr>
+
+                <address class="vcard author">
+                By <a class="url fn" href="http://xyhl515.github.com/author/xyhl515.html">xyhl515</a>
+        </address>
+        <p>In <a href="http://xyhl515.github.com/category/blog.html">Blog</a>. </p>
+<p>tags: <a href="http://xyhl515.github.com/tag/cocosbuilder.html">cocosbuilder</a><a href="http://xyhl515.github.com/tag/cocos2d-x.html">cocos2d-x</a><a href="http://xyhl515.github.com/tag/javascript.html">javascript</a></p>
+</footer><!-- /.post-info --><p>在用cocos2d-javascript binding作游戏的时候遇到一个莫名其妙崩溃的问题，调用堆栈显示是在GC的时候,执行一个叫做MarkObjectRoot的函数，发生了EXC_BAD_ACCESS错误。</p>
+<p>于是查找了些关于ObjectRoot的信息，这东西主要是为了防止SpiderMonkey执行GC操作的时候把还在使用的Object引用清除掉而存在的，不少地方都在第一次使用Object的时候调用了JS_AddNamedObjectRoot/JS_AddObjectRoot函数，并在释放Object的时候调用JS_RemoveObjectRoot函数。</p>
+<p>联系到前面的错误，很有可能是在什么地方使用Object的时候调用了AddNamedObjectRoot/JS_AddObjectRoot函数，但是在释放的时候没有调用相应的JS_RemoveObjectRoot函数，于是SpiderMonkey并不知道这个Object已经被释放了，GC的时候仍然对它执行了MarkObjectRoot操作，从而引发了这个crash。</p>
+<p>虽然找到了方向，但是cocos2d-x代码中用到Add/Remove ObjectRoot的地方实在太多了，一个个查起来非常的浪费时间，于是反过来使用排除法，把代码注释到不再出现这个问题为止，然后一段一段地还原，找到了这个问题跟addCollisionHandler方法有关。查看本地代码，__jsb_cpSpace_addCollisionHandler这个方法里面确实调用了JS_AddNamedObjectRoot函数，然而JSB_cpSpace_finalize方法里面也调用了相应的JS_RemoveObjectRoot函数，按理说应该没问题才对。</p>
+<p>接着打断点调试，addCollisionHandler方法是在每一关初始化物理环境的时候调用的，这次为了调试方便，我在一关玩完后会执行一次强制GC，发现从第一次玩初始化物理环境，到重玩本关的时候第二次初始化物理环境时（也就是第二次调用addCollisionHandler时），再到第二次玩完本关GC时，JSB_cpSpace_finalize函数都一直没有被调用到,而就在第二次GC的时候，程序崩溃。看来跟我前面猜得差不多，CollisionHandler在第一次GC的时候已经被释放掉了，但是SpiderMonkey不知道，于是第二次GC的时候直接崩溃，在代码里面手动添加了removeCollsionHandler之后，果然没问题了。</p><p>There are <a href="http://xyhl515.github.com/wei-xian-de-gc.html#disqus_thread">comments</a>.</p>                </article>
+                            </aside><!-- /#featured -->
+                            <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+                                                
+
+                 
+                        <li><article class="hentry">    
+                <header>
+                    <h1><a href="http://xyhl515.github.com/cocosbuilderzhong-de-javascriptji-cheng-wen-ti.html" rel="bookmark"
+                           title="Permalink to CocosBuilder中的javascript继承问题">CocosBuilder中的javascript继承问题</a></h1>
+                </header>
+                
+                <div class="entry-content">
+                <footer class="post-info">
         <abbr class="published" title="2013-06-19T00:00:00">
                 三 19 六月 2013
         </abbr>
@@ -36,56 +66,11 @@
         </address>
         <p>In <a href="http://xyhl515.github.com/category/blog.html">Blog</a>. </p>
 <p>tags: <a href="http://xyhl515.github.com/tag/cocosbuilder.html">cocosbuilder</a><a href="http://xyhl515.github.com/tag/cocos2d-x.html">cocos2d-x</a><a href="http://xyhl515.github.com/tag/javascript.html">javascript</a></p>
-</footer><!-- /.post-info --><p>由于在同一游戏中，不同关卡在玩法上有许多相同的地方，为了能够让代码复用以简化编程，我往往会把相同的部分放在一个关卡原型里，让不同的卡关能够继承它。然而，javascript本身没有类与继承的概念，这就需要用其它的方法来模拟继承，其中，最为常见的一种方法就是使用原型（prototype）。</p>
-<p>在网上查了些文章与例子之后，我在CocosBuiler中写下的代码大概是这样子的：</p>
-<div class="highlight"><pre><span class="kd">var</span> <span class="nx">Level1</span><span class="o">=</span><span class="kd">function</span><span class="p">()</span> <span class="p">{};</span>
-<span class="nx">Level1</span><span class="p">.</span><span class="nx">prototype</span><span class="o">=</span><span class="k">new</span> <span class="nx">LevelBase</span><span class="p">();</span>
-<span class="nx">Level1</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">constructor</span><span class="o">=</span><span class="nx">Level1</span><span class="p">;</span>
-<span class="nx">Level1</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">onDidLoadFromCCB</span><span class="o">=</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-    <span class="nx">LevelBase</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">onDidLoadFromCCB</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span><span class="nx">arguments</span><span class="p">);</span>
-    <span class="c1">//Do Something</span>
-<span class="p">};</span>
-</pre></div>
-
-
-<p>第一次运行没问题，然而重玩本关的时候，在一个CCB节点的控制器类中报"Invalid Native Object"错误，报错的地方是调用了该控制器的rootNode的getPosition()函数：</p>
-<div class="highlight"><pre><span class="n">this</span><span class="p">.</span><span class="n">rootNode</span><span class="p">.</span><span class="n">getPosition</span><span class="p">()</span>
-</pre></div>
-
-
-<p>在C++中找到相应的报错语句是这样的：</p>
-<div class="highlight"><pre><span class="n">JSObject</span> <span class="o">*</span><span class="n">obj</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
-<span class="n">cocos2d</span><span class="o">::</span><span class="n">CCNode</span><span class="o">*</span> <span class="n">cobj</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
-<span class="n">obj</span> <span class="o">=</span> <span class="n">JS_THIS_OBJECT</span><span class="p">(</span><span class="n">cx</span><span class="p">,</span> <span class="n">vp</span><span class="p">);</span>
-<span class="kt">js_proxy_t</span> <span class="o">*</span><span class="n">proxy</span><span class="p">;</span> <span class="n">JS_GET_NATIVE_PROXY</span><span class="p">(</span><span class="n">proxy</span><span class="p">,</span> <span class="n">obj</span><span class="p">);</span>
-<span class="n">cobj</span> <span class="o">=</span> <span class="p">(</span><span class="n">cocos2d</span><span class="o">::</span><span class="n">CCNode</span> <span class="o">*</span><span class="p">)(</span><span class="n">proxy</span> <span class="o">?</span> <span class="n">proxy</span><span class="o">-&gt;</span><span class="n">ptr</span> <span class="o">:</span> <span class="nb">NULL</span><span class="p">);</span>
-<span class="n">JSB_PRECONDITION2</span><span class="p">(</span> <span class="n">cobj</span><span class="p">,</span> <span class="n">cx</span><span class="p">,</span> <span class="n">JS_FALSE</span><span class="p">,</span> <span class="s">&quot;Invalid Native Object&quot;</span><span class="p">);</span>
-</pre></div>
-
-
-<p>这样看报错的原因只有可能是rootNode出了问题，于是把rootNode打印出来，结果显示确实是Sprite类型没错。那么是本地取this对象的时候出了问题?SpiderMonkey、CocosBuilder、cocos2d-x的Javascript binding都有可能与这个问题有关，从底层入手有点大海捞针的感觉，那么就从顶层的逻辑入手。</p>
-<p>既然是重玩本关的时候出错，首先要考虑的就是有些地方没有释放，接下来做了些测试，发现把要继承的代码直接写在关卡类里面，不经过继承就不会出现这个问题，重新审视那段继承的代码，想会不会是因为用了LevelBase的实例作原型，导致这个LevelBase实例连带里面成员一起没有释放，所以才出现了这个问题。</p>
-<p>抱着姑且一试的心情，把上面那段继承的代码改成：</p>
-<div class="highlight"><pre><span class="kd">var</span> <span class="nx">Level1</span><span class="o">=</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-    <span class="nx">LevelBase</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span><span class="nx">arguments</span><span class="p">);</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">onDidLoadFromCCB</span><span class="o">=</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-    <span class="nx">LevelBase</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">onDidLoadFromCCB</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span><span class="nx">arguments</span><span class="p">);</span>
-    <span class="c1">//Do Something</span>
-    <span class="p">};</span>
-<span class="p">};</span>
-
-<span class="nx">Level1</span><span class="p">.</span><span class="nx">prototype</span><span class="o">=</span><span class="nx">LevelBase</span><span class="p">.</span><span class="nx">prototype</span><span class="p">;</span>
-<span class="nx">Level1</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">constructor</span><span class="o">=</span><span class="nx">Level1</span><span class="p">;</span>
-</pre></div>
-
-
-<p>运行，问题解决了！</p><p>There are <a href="http://xyhl515.github.com/cocosbuilderzhong-de-javascriptji-cheng-wen-ti.html#disqus_thread">comments</a>.</p>                </article>
-                            </aside><!-- /#featured -->
-                            <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
-                                                
+</footer><!-- /.post-info -->                <p>由于在同一游戏中，不同关卡在玩法上有许多相同的地方，为了能够让代码复用以简化编程，我往往会把相同的部分放在一个关卡原型里，让不同的卡关能够继承它。然而，javascript本身没有类与继承的概念，这就需要用其它的方法来模拟继承，其中，最为常见的一种方法就是使用原型 ...</p>
+                <a class="readmore" href="http://xyhl515.github.com/cocosbuilderzhong-de-javascriptji-cheng-wen-ti.html">read more</a>
+                <p>There are <a href="http://xyhl515.github.com/cocosbuilderzhong-de-javascriptji-cheng-wen-ti.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
+                            
 
                  
                         <li><article class="hentry">    
@@ -105,7 +90,7 @@
         </address>
         <p>In <a href="http://xyhl515.github.com/category/blog.html">Blog</a>. </p>
 <p>tags: <a href="http://xyhl515.github.com/tag/cocosbuilder.html">cocosbuilder</a><a href="http://xyhl515.github.com/tag/cocos2d-x.html">cocos2d-x</a><a href="http://xyhl515.github.com/tag/javascript.html">javascript</a></p>
-</footer><!-- /.post-info -->                <p>CocosBuilder是一个用于cocos2d的可视化编辑器,属于cocos2d联合发布的一部分。我曾经考虑过用它来做游戏的界面编辑，但是做了个Demo，评估了下之后 ...</p>
+</footer><!-- /.post-info -->                <p>CocosBuilder是一个用于cocos2d的可视化编辑器,属于cocos2d联合发布的一部分。我曾经考虑过用它来做游戏的界面编辑，但是做了个Demo，评估了下之后，还是放弃了这个想法。一方面是感觉CocosBuilder还不太成熟，很多cocos2d的类与方法都不能在CocosBuilder中直接使用，另一方面用cocos2d-x加载ccbi文件之后，需要手动的对场景 ...</p>
                 <a class="readmore" href="http://xyhl515.github.com/hao-wan-de-cocosbuilder.html">read more</a>
                 <p>There are <a href="http://xyhl515.github.com/hao-wan-de-cocosbuilder.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
             </article></li>
@@ -129,7 +114,7 @@
         </address>
         <p>In <a href="http://xyhl515.github.com/category/blog.html">Blog</a>. </p>
 <p>tags: <a href="http://xyhl515.github.com/tag/cocos2d-x.html">cocos2d-x</a><a href="http://xyhl515.github.com/tag/windows.html">windows</a></p>
-</footer><!-- /.post-info -->                <p>虽然在cocos2d-x支持的平台中包括Windows、Mac、Linux这样的传统电脑平台，但是这些平台只是被视为开发环境而存在的，对于在这些平台上面发布游戏 ...</p>
+</footer><!-- /.post-info -->                <p>虽然在cocos2d-x支持的平台中包括Windows、Mac、Linux这样的传统电脑平台，但是这些平台只是被视为开发环境而存在的，对于在这些平台上面发布游戏，cocos2d-x本身没有提供官方的解决方案。然而，这些平台（尤其是Windows）拥有的用户数量不可忽视 ...</p>
                 <a class="readmore" href="http://xyhl515.github.com/post1.html">read more</a>
                 <p>There are <a href="http://xyhl515.github.com/post1.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
             </article></li>
