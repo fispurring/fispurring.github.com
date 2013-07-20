@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
         <meta charset="utf-8">
-        <title>Code Tip</title>
+        <title>关于CocosBuilder多分辨率适配的一些想法</title>
         <link rel="stylesheet" href="http://xyhl515.github.com/theme/css/main.css">
                 
         <!--[if IE]>
@@ -17,16 +17,19 @@
         <header id="banner" class="body">
                 <h1><a href="http://xyhl515.github.com/">Code Tip </a></h1>
                 <nav><ul>
-                                                                                    <li ><a href="http://xyhl515.github.com/category/blog.html">Blog</a></li>
+                                                                                    <li class="active"><a href="http://xyhl515.github.com/category/blog.html">Blog</a></li>
                                                 </ul></nav>
         </header><!-- /#banner -->
-                
-            
+        <section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="http://xyhl515.github.com/guan-yu-cocosbuilderduo-fen-bian-lu-gua-pei-de-xie-xiang-fa.html" rel="bookmark"
+           title="Permalink to 关于CocosBuilder多分辨率适配的一些想法">关于CocosBuilder多分辨率适配的一些想法</a></h1>
+          </header>
 
-                            <aside id="featured" class="body">
-                <article>
-                    <h1 class="entry-title"><a href="http://xyhl515.github.com/guan-yu-cocosbuilderduo-fen-bian-lu-gua-pei-de-xie-xiang-fa.html">关于CocosBuilder多分辨率适配的一些想法</a></h1> 
-                    <footer class="post-info">
+    <div class="entry-content">
+      <footer class="post-info">
         <abbr class="published" title="2013-07-20T00:00:00">
                 六 20 七月 2013
         </abbr>
@@ -36,7 +39,7 @@
         </address>
         <p>In <a href="http://xyhl515.github.com/category/blog.html">Blog</a>. </p>
 <p>tags: <a href="http://xyhl515.github.com/tag/cocosbuilder.html">cocosbuilder</a><a href="http://xyhl515.github.com/tag/cocos2d-x.html">cocos2d-x</a><a href="http://xyhl515.github.com/tag/ping-mu-gua-pei.html">屏幕适配</a></p>
-</footer><!-- /.post-info --><p>其实多分辨适配在我看来主要就是解决2个问题：资源的<em>大小</em>和摆放的<em>位置</em>。</p>
+</footer><!-- /.post-info -->      <p>其实多分辨适配在我看来主要就是解决2个问题：资源的<em>大小</em>和摆放的<em>位置</em>。</p>
 <p>大小的话主要就是就是设置资源的scale和引擎的逻辑分辨率（对于cocos2d-x来说就是designsize）,根据实际需要进行边缘的留黑或者裁减，这里不多做讨论。</p>
 <p>下面主要来讨论下位置的适配，我一般使用的方法是<strong>边缘和中心点</strong>＋<strong>距离系数</strong>的方式。所谓的边缘和中心点就是根据实际需要以游戏窗口或者父对象的上下左右或者中心点为基准来设置坐标，距离系数就是用来与一组坐标值相乘来得到实际的适用于不同分辨率的坐标值。CocosBuilder使用的方法和我上面提到的方法很相似，以父对象的4个角为基准对齐可以算在边缘和中心点里面，百分比和resolution scale可以算在距离系数里面，但是没有以中心点为基准对齐的选项，而更为悲剧的是Cocosbuilder一次只能选择一种方式进行位置适配，也就是说假如你选择了用父对象的右上角作为基准适配，你就不能再使用resolution scale方式。实际上这两种方式非但不冲突，反而经常需要配合使用。我的看法是Cocosbuilder可以把位置适配分成3类，4个角（最好再加上一个中心点）分成一类，属于位置摆放的基准，resolution scale作为一类表示从设置坐标到实际坐标转换的一个系数，百分比作为一个可选单位与point作为一类。</p>
 <h3>一些简单的改造</h3>
@@ -113,112 +116,25 @@
 </pre></div>
 
 
-<p>有没有发现这样修改后kCCBPositionTypeMultiplyResolution变得多余了，正好还少一个以中心点为基准适配的方式，需要的时候可以把它扩展成我们想要的功能。</p><p>There are <a href="http://xyhl515.github.com/guan-yu-cocosbuilderduo-fen-bian-lu-gua-pei-de-xie-xiang-fa.html#disqus_thread">comments</a>.</p>                </article>
-                            </aside><!-- /#featured -->
-                            <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
-                                                
-
-                 
-                        <li><article class="hentry">    
-                <header>
-                    <h1><a href="http://xyhl515.github.com/wei-xian-de-gc.html" rel="bookmark"
-                           title="Permalink to 危险的GC">危险的GC</a></h1>
-                </header>
-                
-                <div class="entry-content">
-                <footer class="post-info">
-        <abbr class="published" title="2013-06-24T00:00:00">
-                一 24 六月 2013
-        </abbr>
-
-                <address class="vcard author">
-                By <a class="url fn" href="http://xyhl515.github.com/author/xyhl515.html">xyhl515</a>
-        </address>
-        <p>In <a href="http://xyhl515.github.com/category/blog.html">Blog</a>. </p>
-<p>tags: <a href="http://xyhl515.github.com/tag/cocosbuilder.html">cocosbuilder</a><a href="http://xyhl515.github.com/tag/cocos2d-x.html">cocos2d-x</a><a href="http://xyhl515.github.com/tag/javascript.html">javascript</a></p>
-</footer><!-- /.post-info -->                <p>在用cocos2d-javascript binding作游戏的时候遇到一个莫名其妙崩溃的问题，调用堆栈显示是在GC的时候,执行一个叫做MarkObjectRoot的函数，发生了EXC_BAD_ACCESS错误。</p>
-<p>于是查找了些关于ObjectRoot的信息，这东西主要是为了防止SpiderMonkey执行GC操作的时候把还在使用的Object引用清除掉而存在的，不少地方都在第一次使用Object的时候调用了JS_AddNamedObjectRoot/JS_AddObjectRoot函数，并在释放Object的时候调用JS_RemoveObjectRoot函数 ...</p>
-                <a class="readmore" href="http://xyhl515.github.com/wei-xian-de-gc.html">read more</a>
-                <p>There are <a href="http://xyhl515.github.com/wei-xian-de-gc.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
-            </article></li>
-                            
-
-                 
-                        <li><article class="hentry">    
-                <header>
-                    <h1><a href="http://xyhl515.github.com/cocosbuilderzhong-de-javascriptji-cheng-wen-ti.html" rel="bookmark"
-                           title="Permalink to CocosBuilder中的javascript继承问题">CocosBuilder中的javascript继承问题</a></h1>
-                </header>
-                
-                <div class="entry-content">
-                <footer class="post-info">
-        <abbr class="published" title="2013-06-19T00:00:00">
-                三 19 六月 2013
-        </abbr>
-
-                <address class="vcard author">
-                By <a class="url fn" href="http://xyhl515.github.com/author/xyhl515.html">xyhl515</a>
-        </address>
-        <p>In <a href="http://xyhl515.github.com/category/blog.html">Blog</a>. </p>
-<p>tags: <a href="http://xyhl515.github.com/tag/cocosbuilder.html">cocosbuilder</a><a href="http://xyhl515.github.com/tag/cocos2d-x.html">cocos2d-x</a><a href="http://xyhl515.github.com/tag/javascript.html">javascript</a></p>
-</footer><!-- /.post-info -->                <p>由于在同一游戏中，不同关卡在玩法上有许多相同的地方，为了能够让代码复用以简化编程，我往往会把相同的部分放在一个关卡原型里，让不同的卡关能够继承它。然而，javascript本身没有类与继承的概念，这就需要用其它的方法来模拟继承，其中，最为常见的一种方法就是使用原型 ...</p>
-                <a class="readmore" href="http://xyhl515.github.com/cocosbuilderzhong-de-javascriptji-cheng-wen-ti.html">read more</a>
-                <p>There are <a href="http://xyhl515.github.com/cocosbuilderzhong-de-javascriptji-cheng-wen-ti.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
-            </article></li>
-                            
-
-                 
-                        <li><article class="hentry">    
-                <header>
-                    <h1><a href="http://xyhl515.github.com/hao-wan-de-cocosbuilder.html" rel="bookmark"
-                           title="Permalink to 好玩的CocosBuilder">好玩的CocosBuilder</a></h1>
-                </header>
-                
-                <div class="entry-content">
-                <footer class="post-info">
-        <abbr class="published" title="2013-06-11T00:00:00">
-                二 11 六月 2013
-        </abbr>
-
-                <address class="vcard author">
-                By <a class="url fn" href="http://xyhl515.github.com/author/xyhl515.html">xyhl515</a>
-        </address>
-        <p>In <a href="http://xyhl515.github.com/category/blog.html">Blog</a>. </p>
-<p>tags: <a href="http://xyhl515.github.com/tag/cocosbuilder.html">cocosbuilder</a><a href="http://xyhl515.github.com/tag/cocos2d-x.html">cocos2d-x</a><a href="http://xyhl515.github.com/tag/javascript.html">javascript</a></p>
-</footer><!-- /.post-info -->                <p>CocosBuilder是一个用于cocos2d的可视化编辑器,属于cocos2d联合发布的一部分。我曾经考虑过用它来做游戏的界面编辑，但是做了个Demo，评估了下之后，还是放弃了这个想法。一方面是感觉CocosBuilder还不太成熟，很多cocos2d的类与方法都不能在CocosBuilder中直接使用，另一方面用cocos2d-x加载ccbi文件之后，需要手动的对场景 ...</p>
-                <a class="readmore" href="http://xyhl515.github.com/hao-wan-de-cocosbuilder.html">read more</a>
-                <p>There are <a href="http://xyhl515.github.com/hao-wan-de-cocosbuilder.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
-            </article></li>
-                            
-
-                 
-                        <li><article class="hentry">    
-                <header>
-                    <h1><a href="http://xyhl515.github.com/post1.html" rel="bookmark"
-                           title="Permalink to 用Cocos2d-x开发Windows游戏">用Cocos2d-x开发Windows游戏</a></h1>
-                </header>
-                
-                <div class="entry-content">
-                <footer class="post-info">
-        <abbr class="published" title="2013-05-04T00:00:00">
-                六 04 五月 2013
-        </abbr>
-
-                <address class="vcard author">
-                By <a class="url fn" href="http://xyhl515.github.com/author/xyhl515.html">xyhl515</a>
-        </address>
-        <p>In <a href="http://xyhl515.github.com/category/blog.html">Blog</a>. </p>
-<p>tags: <a href="http://xyhl515.github.com/tag/cocos2d-x.html">cocos2d-x</a><a href="http://xyhl515.github.com/tag/windows.html">windows</a></p>
-</footer><!-- /.post-info -->                <p>虽然在cocos2d-x支持的平台中包括Windows、Mac、Linux这样的传统电脑平台，但是这些平台只是被视为开发环境而存在的，对于在这些平台上面发布游戏，cocos2d-x本身没有提供官方的解决方案。然而，这些平台（尤其是Windows）拥有的用户数量不可忽视 ...</p>
-                <a class="readmore" href="http://xyhl515.github.com/post1.html">read more</a>
-                <p>There are <a href="http://xyhl515.github.com/post1.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
-            </article></li>
-                            </ol><!-- /#posts-list -->
-                                                    </section><!-- /#content -->
-                    <section id="extras" class="body">
+<p>有没有发现这样修改后kCCBPositionTypeMultiplyResolution变得多余了，正好还少一个以中心点为基准适配的方式，需要的时候可以把它扩展成我们想要的功能。</p>
+    </div><!-- /.entry-content -->
+        <div class="comments">
+      <h2>Comments !</h2>
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        var disqus_identifier = "guan-yu-cocosbuilderduo-fen-bian-lu-gua-pei-de-xie-xiang-fa.html";
+        var disqus_url = "http://xyhl515.github.com/guan-yu-cocosbuilderduo-fen-bian-lu-gua-pei-de-xie-xiang-fa.html";
+        (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://codetip.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+    </div>
+    
+  </article>
+</section>
+        <section id="extras" class="body">
                         </section><!-- /#extras -->
 
         <footer id="contentinfo" class="body">
