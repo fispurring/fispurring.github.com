@@ -1,47 +1,93 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="cn">
 <head>
-        <meta charset="utf-8">
-        <title>Code Tip</title>
-        <link rel="stylesheet" href="http://xyhl515.github.com/theme/css/main.css">
-                
-        <!--[if IE]>
-            <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-        <![endif]-->
+	<meta charset="utf-8">
+	<title>Categories — Code Tip</title>
+	<meta name="description" content="The Categories page lists all categories used to classify the posts. Each post is categorized by a category helping readers find out easily what they are looking for.">
+	<meta name="author" content="Marsyas">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+	<!--[if lt IE 9]>
+		<script src="https://fispurring.github.io/theme/html5.js"></script>
+		<![endif]-->
+	<link href="https://fispurring.github.io/theme/css/ipython.css" rel="stylesheet">
+	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+	<link href="//maxcdn.bootstrapcdn.com/bootswatch/3.2.0/simplex/bootstrap.min.css" rel="stylesheet">
+	<link href="https://fispurring.github.io/theme/css/local.css" rel="stylesheet">
+	<link href="https://fispurring.github.io/theme/css/pygments.css" rel="stylesheet">
 </head>
-
-<body id="index" class="home">
-<a href="http://github.com/xyhl515">
-<img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub" />
-</a>
-        <header id="banner" class="body">
-                <h1><a href="http://xyhl515.github.com/">Code Tip </a></h1>
-                <nav><ul>
-                                                                                    <li ><a href="http://xyhl515.github.com/category/blog.html">Blog</a></li>
-                                                </ul></nav>
-        </header><!-- /#banner -->
-        <ul>
-    <li><a href="http://xyhl515.github.com/category/blog.html">Blog</a></li>
+<body>
+<div class="container">
+	<div class="page-header">
+		<h1><a href="https://fispurring.github.io/">Code Tip</a>
+			<br>	</div>
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2">
+<h1>Categories</h1>
+<ul>
+	<li><a href="https://fispurring.github.io/category/ji-zhu.html">技术</li>
 </ul>
-        <section id="extras" class="body">
-                        </section><!-- /#extras -->
-
-        <footer id="contentinfo" class="body">
-                <address id="about" class="vcard body">
-                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
-                </address><!-- /#about -->
-
-                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
-        </footer><!-- /#contentinfo -->
-
+		</div>
+	</div> 	<!-- <hr> -->
+</div> <!-- /container -->
+<footer class="aw-footer bg-danger">
+	<div class="container"> <!-- footer -->
+		<div class="row">
+			<div class="col-md-10 col-md-offset-1">
+				<div class="row">
+					<div class="col-md-3">
+						<h4>Navigation</h4>
+						<ul class="list-unstyled my-list-style">
+							<li><a href="https://fispurring.github.io">Code Tip</a></li>
+						</ul>
+					</div>
+					<div class="col-md-3">
+						<h4>Author</h4>
+						<ul class="list-unstyled my-list-style">
+							<li><a href="mailto:llxxyy217@gmail.com">Email</a></li>
+						</ul>
+					</div>
+					<div class="col-md-3">
+						<h4>Categories</h4>
+						<ul class="list-unstyled my-list-style">
+							<li><a href="https://fispurring.github.io/category/技术.html">技术 (4)</a></li>
+						</ul>
+					</div>
+					<div class="col-md-3">
+						<h4>Links</h4>
+						<ul class="list-unstyled my-list-style">
+							<li><a href="https://github.com/fispurring/">Github</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</footer>
+<div class="container">
+	<div class="row">
+		<div class="col-md-12 text-center center-block aw-bottom">
+			<p>&copy; Marsyas 2016</p>
+			<p>Powered by Pelican</p>
+		</div>
+	</div>
+</div>
+<!-- JavaScript -->
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 <script type="text/javascript">
-    var disqus_shortname = 'codetip';
-    (function () {
-        var s = document.createElement('script'); s.async = true;
-        s.type = 'text/javascript';
-        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
-        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
-    }());
+jQuery(document).ready(function($) {
+	$("div.collapseheader").click(function () {
+		$header = $(this).children("span").first();
+		$codearea = $(this).children(".input_area");
+		$codearea.slideToggle(500, function () {
+			$header.text(function () {
+				return $codearea.is(":visible") ? "Collapse Code" : "Expand Code";
+			});
+		});
+	});
+});
 </script>
 </body>
 </html>

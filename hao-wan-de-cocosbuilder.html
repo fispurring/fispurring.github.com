@@ -1,45 +1,57 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="cn">
 <head>
-        <meta charset="utf-8">
-        <title>好玩的CocosBuilder</title>
-        <link rel="stylesheet" href="http://xyhl515.github.com/theme/css/main.css">
-                
-        <!--[if IE]>
-            <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-        <![endif]-->
+	<meta charset="utf-8">
+	<title>好玩的CocosBuilder — Code Tip</title>
+	<meta name="description" content="Title: 好玩的CocosBuilder; Date: 2013-06-11; Author: Marsyas">
+	<meta name="author" content="Marsyas">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+	<!--[if lt IE 9]>
+		<script src="https://fispurring.github.io/theme/html5.js"></script>
+		<![endif]-->
+	<link href="https://fispurring.github.io/theme/css/ipython.css" rel="stylesheet">
+	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+	<link href="//maxcdn.bootstrapcdn.com/bootswatch/3.2.0/simplex/bootstrap.min.css" rel="stylesheet">
+	<link href="https://fispurring.github.io/theme/css/local.css" rel="stylesheet">
+	<link href="https://fispurring.github.io/theme/css/pygments.css" rel="stylesheet">
 </head>
-
-<body id="index" class="home">
-<a href="http://github.com/xyhl515">
-<img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub" />
-</a>
-        <header id="banner" class="body">
-                <h1><a href="http://xyhl515.github.com/">Code Tip </a></h1>
-                <nav><ul>
-                                                                                    <li class="active"><a href="http://xyhl515.github.com/category/blog.html">Blog</a></li>
-                                                </ul></nav>
-        </header><!-- /#banner -->
-        <section id="content" class="body">
-  <article>
-    <header>
-      <h1 class="entry-title">
-        <a href="http://xyhl515.github.com/hao-wan-de-cocosbuilder.html" rel="bookmark"
-           title="Permalink to 好玩的CocosBuilder">好玩的CocosBuilder</a></h1>
-          </header>
-
-    <div class="entry-content">
-      <footer class="post-info">
-        <abbr class="published" title="2013-06-11T00:00:00">
-                二 11 六月 2013
-        </abbr>
-
-                <address class="vcard author">
-                By <a class="url fn" href="http://xyhl515.github.com/author/xyhl515.html">xyhl515</a>
-        </address>
-        <p>In <a href="http://xyhl515.github.com/category/blog.html">Blog</a>. </p>
-<p>tags: <a href="http://xyhl515.github.com/tag/cocosbuilder.html">cocosbuilder</a><a href="http://xyhl515.github.com/tag/cocos2d-x.html">cocos2d-x</a><a href="http://xyhl515.github.com/tag/javascript.html">javascript</a></p>
-</footer><!-- /.post-info -->      <p>CocosBuilder是一个用于cocos2d的可视化编辑器,属于cocos2d联合发布的一部分。我曾经考虑过用它来做游戏的界面编辑，但是做了个Demo，评估了下之后，还是放弃了这个想法。一方面是感觉CocosBuilder还不太成熟，很多cocos2d的类与方法都不能在CocosBuilder中直接使用，另一方面用cocos2d-x加载ccbi文件之后，需要手动的对场景（或者是节点）里面的成员进行绑定，而我要做的项目单个界面并不复杂，但是界面很多，如果每个界面都手动绑定的话，实际效率上不会有太大的提高,但是项目的复杂度却会大大的增加,再加上当时项目比较紧，没有太多的时间用来学习和尝试CocosBuilder,所以最后选择了放弃。</p>
+<body>
+<div class="container">
+	<div class="page-header">
+		<h1><a href="https://fispurring.github.io/">Code Tip</a>
+			<br>	</div>
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2">
+<div class="article" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="text-center article-header">
+		<h1 itemprop="name headline" class="article-title">好玩的CocosBuilder</h1>
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<h4 itemprop="name">Marsyas</h4>
+		</span>
+		<time datetime="2013-06-11T00:00:00+08:00" itemprop="datePublished">Tue 11 June 2013</time>
+	</div>
+	<div>
+		Category:
+		<span itemprop="articleSection">
+			<a href="https://fispurring.github.io/category/ji-zhu.html" rel="category">技术</a>
+		</span>
+	</div>
+ 
+	<div>
+		Tags:
+		<span itemprop="keywords">
+			<a href="https://fispurring.github.io/tag/cocosbuilder.html" rel="tag">cocosbuilder</a>
+		</span>
+		<span itemprop="keywords">
+			<a href="https://fispurring.github.io/tag/cocos2d-x.html" rel="tag">cocos2d-x</a>
+		</span>
+		<span itemprop="keywords">
+			<a href="https://fispurring.github.io/tag/javascript.html" rel="tag">javascript</a>
+		</span>
+	</div>
+	<div itemprop="articleBody" class="article-body"><p>CocosBuilder是一个用于cocos2d的可视化编辑器,属于cocos2d联合发布的一部分。我曾经考虑过用它来做游戏的界面编辑，但是做了个Demo，评估了下之后，还是放弃了这个想法。一方面是感觉CocosBuilder还不太成熟，很多cocos2d的类与方法都不能在CocosBuilder中直接使用，另一方面用cocos2d-x加载ccbi文件之后，需要手动的对场景（或者是节点）里面的成员进行绑定，而我要做的项目单个界面并不复杂，但是界面很多，如果每个界面都手动绑定的话，实际效率上不会有太大的提高,但是项目的复杂度却会大大的增加,再加上当时项目比较紧，没有太多的时间用来学习和尝试CocosBuilder,所以最后选择了放弃。</p>
 <p>前段时间被以前的同学拉去参加黑客马拉松，正好有个机会试试CocosBuilder，发现了不少有趣的东西。</p>
 <h3>CocosPlayer</h3>
 <p>在开发ios游戏的时候，由于必须由XCode进行代码编译，所以像Unity这样的跨平台游戏引擎，在进行真机调试之前，都必须先把做好的项目导出成一个XCode项目，然后编译这个XCode项目来进行真机调试。而用过unity的人应该都很清楚，这个导出的过程非常的缓慢。</p>
@@ -49,97 +61,120 @@
 <h3>用CocosBuilder来制作图集</h3>
 <p>对于cocos2d开发者来说，最常用的制作图集的方法莫过于TexturePacker了，只不过TexturePacker是收费的，对于图集要求不高的朋友可以试试用CocosBuilder来制作图集。CocosBuilder的这个功能并不是独立出来的，而是附加在发布功能上面，把要制作成图集的图片放在一个文件夹下面，CocosBuilder中右键该文件夹，选择Make Smart Sprite Sheet，然后发布项目，之后在发布出来的文件夹里面就能找到图集的.plist与.png文件了^_^当然，这种方法有点旁门左道了，而且可供选择的功能远远不如TexturePacker那么多，正式制作游戏的时候还是花点钱用TexturePacker为好。</p>
 <h3>Javascript binding</h3>
-<p>剩下的诸如场景制作、动画制作、粒子特效都是CocosBuilder的传统功能了，看官方文档即可，无需多讲，最后来说说Javascript绑定。在CocosBuilder中可以通过javascript来编写游戏，使用mvc方式进行交互,即需要交互的ccb文件指定一个js类来作为其控制器，ccb文件中的成员和方法都可以由这个指定的类进行控制和实现。cocos2d使用SpiderMonkey作为其JS引擎，所以标准的js语法和库都能够支持，同时cocos2d为自己的本地代码提供了jsb接口，所以大多数cocos2d中的类与方法也可以用js直接调用（注意：不是全部）,并且还提供了jsb接口的<a href="https://github.com/cocos2d/bindings-generator">生成工具</a>让我们能够为自己的本地代码做js绑定。于是我就帮我的<a href="https://github.com/xyhl515/Erratic/tree/master/Joystick">摇杆</a>添加了js绑定，在添加的过程中遇到了一些问题，我相信这些问题也是现在js绑定存在的一些主要问题，下面来具体说一下。</p>
+<p>剩下的诸如场景制作、动画制作、粒子特效都是CocosBuilder的传统功能了，看官方文档即可，无需多讲，最后来说说Javascript绑定。在CocosBuilder中可以通过javascript来编写游戏，使用mvc方式进行交互,即需要交互的ccb文件指定一个js类来作为其控制器，ccb文件中的成员和方法都可以由这个指定的类进行控制和实现。cocos2d使用SpiderMonkey作为其JS引擎，所以标准的js语法和库都能够支持，同时cocos2d为自己的本地代码提供了jsb接口，所以大多数cocos2d中的类与方法也可以用js直接调用（注意：不是全部）,并且还提供了jsb接口的<a href="https://github.com/cocos2d/bindings-generator">生成工具</a>让我们能够为自己的本地代码做js绑定。于是我就帮我的<a href="https://github.com/fispurring/Erratic/tree/master/cocos2dx-extensions/Joystick">摇杆</a>添加了js绑定，在添加的过程中遇到了一些问题，我相信这些问题也是现在js绑定存在的一些主要问题，下面来具体说一下。</p>
 <p>根据cocos2d-x官方的说法，这个jsb生成工具的有一些限制，比如函数不能有可变参数、参数不能有默认值、delegate需要手动绑定。根据我的使用经验，还发现一个限制就是不能传null值给函数。前两个限制还好解决，改变一下函数写法就好了，后面两个就比较蛋疼了。先说delegate的问题，由于摇杆需要在玩家的操作之后做出一系列的回调处理，但是delegate本身是c++的代码，它回调的对象是js的代码，而生成工具无法判断出delegate,所以回调的一律是c++代码，所以遇到要回调js的delegate,我们就得靠自己来绑定，至于怎么自己绑定官方文档没写，谷歌也不知道。</p>
 <p>我查看了cocos2d-x自己做的手动绑定，发现大致的流程是这样的：先把需要手动绑定的代码在jsb生成工具的配置文件中禁掉，接着为delegate编写一个代理类，这个代理类主要把delegate的回调跟js那边的代码关联起来，然后把delegate的对象实例替换成代理类的，最后注册手动绑定的方法。</p>
 <p>以我为摇杆做的js绑定为例，在配置文件中把我们需要手动绑定的部分禁掉：</p>
-<div class="highlight"><pre><span class="n">classes</span><span class="o">=</span><span class="n">Joystick</span>
-<span class="cp">#...</span>
-<span class="n">skip</span> <span class="o">=</span> <span class="n">Joystick</span><span class="o">::</span><span class="p">[</span><span class="n">setDelegate</span><span class="p">]</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="na">classes</span><span class="o">=</span><span class="s">Joystick</span><span class="w"></span>
+<span class="c1">#...</span><span class="w"></span>
+<span class="na">skip</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">Joystick::[setDelegate]</span><span class="w"></span>
+</code></pre></div>
 
 <p>编写delegate的代理类：</p>
-<div class="highlight"><pre><span class="n">class</span> <span class="n">JSB_JoystickDelegate</span> <span class="o">:</span> <span class="n">public</span> <span class="n">JoystickDelegate</span>
-<span class="p">{</span>
-<span class="nl">public:</span>
-    <span class="n">virtual</span> <span class="kt">void</span> <span class="n">onRock</span><span class="p">(</span><span class="n">ysDirection</span> <span class="n">director</span><span class="p">,</span><span class="n">CCPoint</span> <span class="n">vector</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="n">jsval</span> <span class="n">arg</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
-            <span class="n">arg</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="n">INT_TO_JSVAL</span><span class="p">(</span><span class="n">director</span><span class="p">);</span>
-                <span class="n">arg</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="n">ccpoint_to_jsval</span><span class="p">(</span><span class="n">ScriptingCore</span><span class="o">::</span><span class="n">getInstance</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">getGlobalContext</span><span class="p">(),</span> <span class="n">vector</span><span class="p">);</span>
-                <span class="n">ScriptingCore</span><span class="o">::</span><span class="n">getInstance</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">executeFunctionWithOwner</span><span class="p">(</span><span class="n">OBJECT_TO_JSVAL</span><span class="p">(</span><span class="n">m_pJSDelegate</span><span class="p">),</span> <span class="s">&quot;onRock&quot;</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">arg</span><span class="p">,</span><span class="nb">NULL</span><span class="p">);</span>
-    <span class="p">}</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">JSB_JoystickDelegate</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">JoystickDelegate</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="k">public</span><span class="o">:</span><span class="w"></span>
+<span class="w">    </span><span class="k">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">onRock</span><span class="p">(</span><span class="n">ysDirection</span><span class="w"> </span><span class="n">director</span><span class="p">,</span><span class="n">CCPoint</span><span class="w"> </span><span class="n">vector</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">jsval</span><span class="w"> </span><span class="n">arg</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span><span class="w"></span>
+<span class="w">            </span><span class="n">arg</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="n">INT_TO_JSVAL</span><span class="p">(</span><span class="n">director</span><span class="p">);</span><span class="w"></span>
+<span class="w">                </span><span class="n">arg</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="n">ccpoint_to_jsval</span><span class="p">(</span><span class="n">ScriptingCore</span><span class="o">::</span><span class="n">getInstance</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">getGlobalContext</span><span class="p">(),</span><span class="w"> </span><span class="n">vector</span><span class="p">);</span><span class="w"></span>
+<span class="w">                </span><span class="n">ScriptingCore</span><span class="o">::</span><span class="n">getInstance</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">executeFunctionWithOwner</span><span class="p">(</span><span class="n">OBJECT_TO_JSVAL</span><span class="p">(</span><span class="n">m_pJSDelegate</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;onRock&quot;</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">arg</span><span class="p">,</span><span class="nb">NULL</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
 
-    <span class="n">virtual</span> <span class="kt">void</span> <span class="n">onRockEnd</span><span class="p">()</span>
-    <span class="p">{</span>
-        <span class="n">ScriptingCore</span><span class="o">::</span><span class="n">getInstance</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">executeFunctionWithOwner</span><span class="p">(</span><span class="n">OBJECT_TO_JSVAL</span><span class="p">(</span><span class="n">m_pJSDelegate</span><span class="p">),</span><span class="s">&quot;onRockEnd&quot;</span><span class="p">);</span>
-    <span class="p">}</span>
+<span class="w">    </span><span class="k">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">onRockEnd</span><span class="p">()</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">ScriptingCore</span><span class="o">::</span><span class="n">getInstance</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">executeFunctionWithOwner</span><span class="p">(</span><span class="n">OBJECT_TO_JSVAL</span><span class="p">(</span><span class="n">m_pJSDelegate</span><span class="p">),</span><span class="s">&quot;onRockEnd&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
 
-    <span class="kt">void</span> <span class="n">setJSDelegate</span><span class="p">(</span><span class="n">JSObject</span> <span class="o">*</span><span class="n">sender</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="n">m_pJSDelegate</span><span class="o">=</span><span class="n">sender</span><span class="p">;</span>
-    <span class="p">}</span>
-<span class="nl">private:</span>
-    <span class="n">JSObject</span><span class="o">*</span> <span class="n">m_pJSDelegate</span><span class="p">;</span>
-<span class="p">};</span>
-</pre></div>
-
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="n">setJSDelegate</span><span class="p">(</span><span class="n">JSObject</span><span class="w"> </span><span class="o">*</span><span class="n">sender</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">m_pJSDelegate</span><span class="o">=</span><span class="n">sender</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="k">private</span><span class="o">:</span><span class="w"></span>
+<span class="w">    </span><span class="n">JSObject</span><span class="o">*</span><span class="w"> </span><span class="n">m_pJSDelegate</span><span class="p">;</span><span class="w"></span>
+<span class="p">};</span><span class="w"></span>
+</code></pre></div>
 
 <p>替换代理类实例：</p>
-<div class="highlight"><pre><span class="n">JSB_JoystickDelegate</span><span class="o">*</span> <span class="n">nativeDelegate</span> <span class="o">=</span> <span class="n">new</span> <span class="n">JSB_JoystickDelegate</span><span class="p">();</span>
-    <span class="n">nativeDelegate</span><span class="o">-&gt;</span><span class="n">setJSDelegate</span><span class="p">(</span><span class="n">jsDelegate</span><span class="p">);</span>
-    <span class="n">cobj</span><span class="o">-&gt;</span><span class="n">setDelegate</span><span class="p">(</span><span class="n">nativeDelegate</span><span class="p">);</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="n">JSB_JoystickDelegate</span><span class="o">*</span><span class="w"> </span><span class="n">nativeDelegate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">JSB_JoystickDelegate</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="n">nativeDelegate</span><span class="o">-&gt;</span><span class="n">setJSDelegate</span><span class="p">(</span><span class="n">jsDelegate</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">cobj</span><span class="o">-&gt;</span><span class="n">setDelegate</span><span class="p">(</span><span class="n">nativeDelegate</span><span class="p">);</span><span class="w"></span>
+</code></pre></div>
 
 <p>注册函数：</p>
-<div class="highlight"><pre><span class="k">extern</span> <span class="n">JSObject</span> <span class="o">*</span><span class="n">jsb_Joystick_prototype</span><span class="p">;</span>
-<span class="kt">void</span> <span class="nf">register_all_joystick_manual</span><span class="p">(</span><span class="n">JSContext</span> <span class="o">*</span><span class="n">cx</span><span class="p">,</span><span class="n">JSObject</span> <span class="o">*</span><span class="n">global</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="n">JS_DefineFunction</span><span class="p">(</span><span class="n">cx</span><span class="p">,</span> <span class="n">jsb_Joystick_prototype</span><span class="p">,</span> <span class="s">&quot;setDelegate&quot;</span><span class="p">,</span> <span class="n">js_joystick_Joystick_setDelegate</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">JSPROP_READONLY</span><span class="o">|</span><span class="n">JSPROP_PERMANENT</span><span class="p">);</span>
-<span class="p">}</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="k">extern</span><span class="w"> </span><span class="n">JSObject</span><span class="w"> </span><span class="o">*</span><span class="n">jsb_Joystick_prototype</span><span class="p">;</span><span class="w"></span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">register_all_joystick_manual</span><span class="p">(</span><span class="n">JSContext</span><span class="w"> </span><span class="o">*</span><span class="n">cx</span><span class="p">,</span><span class="n">JSObject</span><span class="w"> </span><span class="o">*</span><span class="n">global</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">JS_DefineFunction</span><span class="p">(</span><span class="n">cx</span><span class="p">,</span><span class="w"> </span><span class="n">jsb_Joystick_prototype</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;setDelegate&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">js_joystick_Joystick_setDelegate</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">JSPROP_READONLY</span><span class="o">|</span><span class="n">JSPROP_PERMANENT</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
 
 <p>这样就OK了。js那边的代码可以接收到摇杆事件的回调了！</p>
-<p>关于传null值会报错的问题，有两种处理方法。一种是传一个没用的初始化对象进去，另一种方法是找到报错的地方，把JSB_PRECONDITION2( cobj, cx, JS_FALSE, "Invalid Native Object");这一句代码注释掉。如果第一种方法没法解决的话，再用第二种方法比较好。</p>
-    </div><!-- /.entry-content -->
-        <div class="comments">
-      <h2>Comments !</h2>
-      <div id="disqus_thread"></div>
-      <script type="text/javascript">
-        var disqus_identifier = "hao-wan-de-cocosbuilder.html";
-        var disqus_url = "http://xyhl515.github.com/hao-wan-de-cocosbuilder.html";
-        (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = 'http://codetip.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-        })();
-      </script>
-    </div>
-    
-  </article>
-</section>
-        <section id="extras" class="body">
-                        </section><!-- /#extras -->
-
-        <footer id="contentinfo" class="body">
-                <address id="about" class="vcard body">
-                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
-                </address><!-- /#about -->
-
-                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
-        </footer><!-- /#contentinfo -->
-
+<p>关于传null值会报错的问题，有两种处理方法。一种是传一个没用的初始化对象进去，另一种方法是找到报错的地方，把JSB_PRECONDITION2( cobj, cx, JS_FALSE, "Invalid Native Object");这一句代码注释掉。如果第一种方法没法解决的话，再用第二种方法比较好。</p></div>
+	<hr>
+	<h2>Comments</h2>
+</div>
+		</div>
+	</div> 	<!-- <hr> -->
+</div> <!-- /container -->
+<footer class="aw-footer bg-danger">
+	<div class="container"> <!-- footer -->
+		<div class="row">
+			<div class="col-md-10 col-md-offset-1">
+				<div class="row">
+					<div class="col-md-3">
+						<h4>Navigation</h4>
+						<ul class="list-unstyled my-list-style">
+							<li><a href="https://fispurring.github.io">Code Tip</a></li>
+						</ul>
+					</div>
+					<div class="col-md-3">
+						<h4>Author</h4>
+						<ul class="list-unstyled my-list-style">
+							<li><a href="mailto:llxxyy217@gmail.com">Email</a></li>
+						</ul>
+					</div>
+					<div class="col-md-3">
+						<h4>Categories</h4>
+						<ul class="list-unstyled my-list-style">
+							<li><a href="https://fispurring.github.io/category/技术.html">技术 (4)</a></li>
+						</ul>
+					</div>
+					<div class="col-md-3">
+						<h4>Links</h4>
+						<ul class="list-unstyled my-list-style">
+							<li><a href="https://github.com/fispurring/">Github</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</footer>
+<div class="container">
+	<div class="row">
+		<div class="col-md-12 text-center center-block aw-bottom">
+			<p>&copy; Marsyas 2016</p>
+			<p>Powered by Pelican</p>
+		</div>
+	</div>
+</div>
+<!-- JavaScript -->
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 <script type="text/javascript">
-    var disqus_shortname = 'codetip';
-    (function () {
-        var s = document.createElement('script'); s.async = true;
-        s.type = 'text/javascript';
-        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
-        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
-    }());
+jQuery(document).ready(function($) {
+	$("div.collapseheader").click(function () {
+		$header = $(this).children("span").first();
+		$codearea = $(this).children(".input_area");
+		$codearea.slideToggle(500, function () {
+			$header.text(function () {
+				return $codearea.is(":visible") ? "Collapse Code" : "Expand Code";
+			});
+		});
+	});
+});
 </script>
 </body>
 </html>
