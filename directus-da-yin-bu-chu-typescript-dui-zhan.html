@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>Directus 打印不出 typescript 堆栈 — Code Tip</title>
-	<meta name="description" content="Title: Directus 打印不出 typescript 堆栈; Date: 2023-07-25; Author: Marsyas">
+	<meta name="description" content="Title: Directus 打印不出 typescript 堆栈; Date: 2023-11-15; Author: Marsyas">
 	<meta name="author" content="Marsyas">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
@@ -30,7 +30,7 @@
 		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
 			<h4 itemprop="name">Marsyas</h4>
 		</span>
-		<time datetime="2023-07-25T00:00:00+08:00" itemprop="datePublished">Tue 25 July 2023</time>
+		<time datetime="2023-11-15T00:39:00+08:00" itemprop="datePublished">Wed 15 November 2023</time>
 	</div>
 	<div>
 		Category:
@@ -115,7 +115,14 @@
 </code></pre></div>
 
 <h3>原因</h3>
-<p>Directus在引入extension时，为了支持热更新，使用了cache break技术，也就是会在路径后面加上时间戳参数，导致 source-map-support 无法正确解析到源文件。 </p></div>
+<p>继续追踪directus源码，发现在加载extensions时，为了支持热更新，使用了Cache Break技术，也就是会在路径后面加上时间戳参数，比如:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">//api/src/extensions.ts</span>
+<span class="kd">const</span> <span class="nx">endpointInstance</span>: <span class="kt">EndpointConfig</span> <span class="o">|</span> <span class="p">{</span> <span class="nx">default</span>: <span class="kt">EndpointConfig</span> <span class="p">}</span> <span class="o">=</span> <span class="k">await</span> <span class="k">import</span><span class="p">(</span>
+    <span class="sb">`./</span><span class="si">${</span><span class="nx">pathToRelativeUrl</span><span class="p">(</span><span class="nx">endpointPath</span><span class="p">,</span> <span class="nx">__dirname</span><span class="p">)</span><span class="si">}</span><span class="sb">?t=</span><span class="si">${</span><span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">()</span><span class="si">}</span><span class="sb">`</span>
+<span class="p">);</span>
+</code></pre></div>
+
+<p>这样导致source-map导致找不到对应文件，因而直接抛出了js错误堆栈。</p></div>
 	<hr>
 	<h2>Comments</h2>
 </div>
