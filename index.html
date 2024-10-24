@@ -8,26 +8,63 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
 	<!--[if lt IE 9]>
-		<script src="https://fispurring.github.io/theme/html5.js"></script>
+		<script src="/theme/html5.js"></script>
 		<![endif]-->
-	<link href="https://fispurring.github.io/theme/css/ipython.css" rel="stylesheet">
+	<link href="/theme/css/ipython.css" rel="stylesheet">
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
 	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 	<link href="//maxcdn.bootstrapcdn.com/bootswatch/3.2.0/simplex/bootstrap.min.css" rel="stylesheet">
-	<link href="https://fispurring.github.io/theme/css/local.css" rel="stylesheet">
-	<link href="https://fispurring.github.io/theme/css/pygments.css" rel="stylesheet">
+	<link href="/theme/css/local.css" rel="stylesheet">
+	<link href="/theme/css/pygments.css" rel="stylesheet">
 </head>
 <body>
 <div class="container">
 	<div class="page-header">
-		<h1><a href="https://fispurring.github.io/">Code Tip</a>
+		<h1><a href="/">Code Tip</a>
 			<br>	</div>
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
         
         
 <div class="article" itemscope itemtype="http://schema.org/BlogPosting">
-	<a href="https://fispurring.github.io/wei-xian-de-gc.html">
+	<a href="/directus-da-yin-bu-chu-typescript-dui-zhan.html">
+		<h2 itemprop="name headline">Directus 打印不出 typescript 堆栈</h2>
+	</a>
+	<time datetime="2023-07-25T00:00:00+08:00" itemprop="datePublished">Tue 25 July 2023</time>
+	&nbsp;—&nbsp;
+	<span itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+		<span itemprop="name">Marsyas</span>
+	</span>
+	<div class="summary"><h3>现象</h3>
+<p>Directus extensions 打印错误日志，只能打印出 javascript 堆栈，无法打印出 typescript 堆栈。</p>
+<h3>排查过程</h3>
+<ul>
+<li>检查了输出目录 dist，发现 dist 目录下有对应的 map 文件，说明 rollup 打包确实生成了 map 文件。</li>
+<li>检查项目，确实安装了 source-map-support，而且在入口文件中引入了 source-map-support/register。</li>
+<li>进一步检查 map 文件， map 文件中确实包含了 typescript 的堆栈信息。</li>
+<li>分析打印出来的堆栈信息，发现堆栈信息中的路径后面带了一个时间戳参数，导致 source-map-support 无法正确解析到源文件。  </li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="p">[</span><span class="n">ERROR</span><span class="p">]</span><span class="w"> </span><span class="n">directus</span><span class="o">-</span><span class="n">extension</span><span class="o">-</span><span class="n">FX</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">setup</span><span class="w"> </span><span class="n">error</span><span class="w"> </span><span class="n">Error</span><span class="o">:</span><span class="w"> </span><span class="n">mock</span><span class="w"> </span><span class="n">error …</span></code></pre></div></div>
+	Category:
+	<span itemprop="articleSection">
+		<a href="/category/ji-zhu.html" rel="category">技术</a>
+	</span>
+	Tags:
+ 
+	<span itemprop="keywords">
+		<a href="/tag/directus.html" rel="tag">Directus</a>
+	</span>
+	<span itemprop="keywords">
+		<a href="/tag/typescript.html" rel="tag">TypeScript</a>
+	</span>
+	<span itemprop="keywords">
+		<a href="/tag/nodejs.html" rel="tag">nodejs</a>
+	</span>
+</div>
+<hr>
+        
+<div class="article" itemscope itemtype="http://schema.org/BlogPosting">
+	<a href="/wei-xian-de-gc.html">
 		<h2 itemprop="name headline">危险的GC</h2>
 	</a>
 	<time datetime="2013-06-24T00:00:00+08:00" itemprop="datePublished">Mon 24 June 2013</time>
@@ -42,24 +79,24 @@
 <p>接着打断点调试，addCollisionHandler方法是在每一关初始化物理环境的时候调用的，这次为了调试方便，我在一关玩完后会执行一次强制GC，发现从第一次玩初始化物理环境，到重玩本关的时候第二次初始化物理环境时（也就是第二次调用addCollisionHandler时），再到第二次玩完本关GC时，JSB_cpSpace_finalize函数都一直没有被调用到,而就在第二次GC的时候，程序崩溃。看来跟我前面猜得差不多，CollisionHandler在第一次GC的时候已经被释放掉了，但是SpiderMonkey不知道，于是第二次GC的时候直接崩溃，在代码里面手动添加了removeCollsionHandler之后，果然没问题了。</p></div>
 	Category:
 	<span itemprop="articleSection">
-		<a href="https://fispurring.github.io/category/ji-zhu.html" rel="category">技术</a>
+		<a href="/category/ji-zhu.html" rel="category">技术</a>
 	</span>
 	Tags:
  
 	<span itemprop="keywords">
-		<a href="https://fispurring.github.io/tag/cocosbuilder.html" rel="tag">cocosbuilder</a>
+		<a href="/tag/cocosbuilder.html" rel="tag">cocosbuilder</a>
 	</span>
 	<span itemprop="keywords">
-		<a href="https://fispurring.github.io/tag/cocos2d-x.html" rel="tag">cocos2d-x</a>
+		<a href="/tag/cocos2d-x.html" rel="tag">cocos2d-x</a>
 	</span>
 	<span itemprop="keywords">
-		<a href="https://fispurring.github.io/tag/javascript.html" rel="tag">javascript</a>
+		<a href="/tag/javascript.html" rel="tag">javascript</a>
 	</span>
 </div>
 <hr>
         
 <div class="article" itemscope itemtype="http://schema.org/BlogPosting">
-	<a href="https://fispurring.github.io/cocosbuilderzhong-de-javascriptji-cheng-wen-ti.html">
+	<a href="/cocosbuilderzhong-de-javascriptji-cheng-wen-ti.html">
 		<h2 itemprop="name headline">CocosBuilder中的javascript继承问题</h2>
 	</a>
 	<time datetime="2013-06-19T00:00:00+08:00" itemprop="datePublished">Wed 19 June 2013</time>
@@ -85,24 +122,24 @@
 <p>在C++中找到相应的报错语句是这样的 …</p></div>
 	Category:
 	<span itemprop="articleSection">
-		<a href="https://fispurring.github.io/category/ji-zhu.html" rel="category">技术</a>
+		<a href="/category/ji-zhu.html" rel="category">技术</a>
 	</span>
 	Tags:
  
 	<span itemprop="keywords">
-		<a href="https://fispurring.github.io/tag/cocosbuilder.html" rel="tag">cocosbuilder</a>
+		<a href="/tag/cocosbuilder.html" rel="tag">cocosbuilder</a>
 	</span>
 	<span itemprop="keywords">
-		<a href="https://fispurring.github.io/tag/cocos2d-x.html" rel="tag">cocos2d-x</a>
+		<a href="/tag/cocos2d-x.html" rel="tag">cocos2d-x</a>
 	</span>
 	<span itemprop="keywords">
-		<a href="https://fispurring.github.io/tag/javascript.html" rel="tag">javascript</a>
+		<a href="/tag/javascript.html" rel="tag">javascript</a>
 	</span>
 </div>
 <hr>
         
 <div class="article" itemscope itemtype="http://schema.org/BlogPosting">
-	<a href="https://fispurring.github.io/hao-wan-de-cocosbuilder.html">
+	<a href="/hao-wan-de-cocosbuilder.html">
 		<h2 itemprop="name headline">好玩的CocosBuilder</h2>
 	</a>
 	<time datetime="2013-06-11T00:00:00+08:00" itemprop="datePublished">Tue 11 June 2013</time>
@@ -119,24 +156,24 @@
 <p>CocosBuilder支持一键发布多平台（ios、android、html5 …</p></div>
 	Category:
 	<span itemprop="articleSection">
-		<a href="https://fispurring.github.io/category/ji-zhu.html" rel="category">技术</a>
+		<a href="/category/ji-zhu.html" rel="category">技术</a>
 	</span>
 	Tags:
  
 	<span itemprop="keywords">
-		<a href="https://fispurring.github.io/tag/cocosbuilder.html" rel="tag">cocosbuilder</a>
+		<a href="/tag/cocosbuilder.html" rel="tag">cocosbuilder</a>
 	</span>
 	<span itemprop="keywords">
-		<a href="https://fispurring.github.io/tag/cocos2d-x.html" rel="tag">cocos2d-x</a>
+		<a href="/tag/cocos2d-x.html" rel="tag">cocos2d-x</a>
 	</span>
 	<span itemprop="keywords">
-		<a href="https://fispurring.github.io/tag/javascript.html" rel="tag">javascript</a>
+		<a href="/tag/javascript.html" rel="tag">javascript</a>
 	</span>
 </div>
 <hr>
         
 <div class="article" itemscope itemtype="http://schema.org/BlogPosting">
-	<a href="https://fispurring.github.io/yong-cocos2d-xkai-fa-windowsyou-xi.html">
+	<a href="/yong-cocos2d-xkai-fa-windowsyou-xi.html">
 		<h2 itemprop="name headline">用Cocos2d-x开发Windows游戏</h2>
 	</a>
 	<time datetime="2013-05-05T00:00:00+08:00" itemprop="datePublished">Sun 05 May 2013</time>
@@ -157,15 +194,15 @@
 <span class="w">    </span><span class="p">(</span><span class="o">*</span><span class="n">m_lpfnAccelerometer …</span></code></pre></div></div>
 	Category:
 	<span itemprop="articleSection">
-		<a href="https://fispurring.github.io/category/ji-zhu.html" rel="category">技术</a>
+		<a href="/category/ji-zhu.html" rel="category">技术</a>
 	</span>
 	Tags:
  
 	<span itemprop="keywords">
-		<a href="https://fispurring.github.io/tag/cocos2d-x.html" rel="tag">cocos2d-x</a>
+		<a href="/tag/cocos2d-x.html" rel="tag">cocos2d-x</a>
 	</span>
 	<span itemprop="keywords">
-		<a href="https://fispurring.github.io/tag/windows.html" rel="tag">windows</a>
+		<a href="/tag/windows.html" rel="tag">windows</a>
 	</span>
 </div>
 <hr>
@@ -173,7 +210,7 @@
 <ul>
     <li class="prev disabled"><a href="#">&larr; Previous</a></li>
 
-    <li class="active"><a href="https://fispurring.github.io/index.html">1</a></li>
+    <li class="active"><a href="/index.html">1</a></li>
 
     <li class="next disabled"><a href="#">&rarr; Next</a></li>
 
@@ -189,7 +226,7 @@
 					<div class="col-md-3">
 						<h4>Navigation</h4>
 						<ul class="list-unstyled my-list-style">
-							<li><a href="https://fispurring.github.io">Code Tip</a></li>
+							<li><a href="">Code Tip</a></li>
 						</ul>
 					</div>
 					<div class="col-md-3">
@@ -201,7 +238,7 @@
 					<div class="col-md-3">
 						<h4>Categories</h4>
 						<ul class="list-unstyled my-list-style">
-							<li><a href="https://fispurring.github.io/category/技术.html">技术 (4)</a></li>
+							<li><a href="/category/技术.html">技术 (5)</a></li>
 						</ul>
 					</div>
 					<div class="col-md-3">
