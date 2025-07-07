@@ -30,7 +30,7 @@
 		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
 			<h4 itemprop="name">Marsyas</h4>
 		</span>
-		<time datetime="2023-11-15T00:39:00+08:00" itemprop="datePublished">Wed 15 November 2023</time>
+		<time datetime="2023-11-15T00:39:00+08:00" itemprop="datePublished">周三 15 十一月 2023</time>
 	</div>
 	<div>
 		Category:
@@ -60,65 +60,65 @@
 <li>进一步检查 map 文件， map 文件中确实包含了 typescript 的堆栈信息。</li>
 <li>分析打印出来的堆栈信息，发现堆栈信息中的路径后面带了一个时间戳参数，导致 source-map-support 无法正确解析到源文件。  </li>
 </ul>
-<div class="highlight"><pre><span></span><code><span class="p">[</span><span class="n">ERROR</span><span class="p">]</span><span class="w"> </span><span class="n">directus</span><span class="o">-</span><span class="n">extension</span><span class="o">-</span><span class="n">FX</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">setup</span><span class="w"> </span><span class="n">error</span><span class="w"> </span><span class="n">Error</span><span class="o">:</span><span class="w"> </span><span class="n">mock</span><span class="w"> </span><span class="n">error</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="p">[</span><span class="n">ERROR</span><span class="p">]</span><span class="w"> </span><span class="n">directus</span><span class="o">-</span><span class="n">extension</span><span class="o">-</span><span class="n">FX</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">setup</span><span class="w"> </span><span class="n">error</span><span class="w"> </span><span class="n">Error</span><span class="o">:</span><span class="w"> </span><span class="n">mock</span><span class="w"> </span><span class="n">error</span>
 <span class="w">  </span><span class="n">at</span><span class="w"> </span><span class="n">Object</span><span class="p">.</span><span class="n">setup</span><span class="w"> </span><span class="p">(</span><span class="n">file</span><span class="o">:</span><span class="c1">///Users/marsyas/Documents/Development/Projects/fx-engine/extensions/directus-extension-FX/dist/api.js?t=1729783263163:1:311160)</span>
 <span class="w">  </span><span class="n">at</span><span class="w"> </span><span class="n">EventEmitter</span><span class="p">.</span><span class="o">&lt;</span><span class="n">anonymous</span><span class="o">&gt;</span><span class="w"> </span><span class="p">(</span><span class="n">file</span><span class="o">:</span><span class="c1">///Users/marsyas/Documents/Development/Projects/fx-engine/extensions/directus-extension-FX/dist/api.js?t=1729783263163:1:312108)</span>
-<span class="w">  </span><span class="n">at</span><span class="w"> </span><span class="n">processTicksAndRejections</span><span class="w"> </span><span class="p">(</span><span class="n">node</span><span class="o">:</span><span class="n">internal</span><span class="o">/</span><span class="n">process</span><span class="o">/</span><span class="n">task_queues</span><span class="o">:</span><span class="mi">95</span><span class="o">:</span><span class="mi">5</span><span class="p">)</span><span class="w"></span>
-<span class="w">  </span><span class="n">at</span><span class="w"> </span><span class="n">async</span><span class="w"> </span><span class="n">Promise</span><span class="p">.</span><span class="n">all</span><span class="w"> </span><span class="p">(</span><span class="n">index</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="n">at</span><span class="w"> </span><span class="n">processTicksAndRejections</span><span class="w"> </span><span class="p">(</span><span class="n">node</span><span class="o">:</span><span class="n">internal</span><span class="o">/</span><span class="n">process</span><span class="o">/</span><span class="n">task_queues</span><span class="o">:</span><span class="mi">95</span><span class="o">:</span><span class="mi">5</span><span class="p">)</span>
+<span class="w">  </span><span class="n">at</span><span class="w"> </span><span class="n">async</span><span class="w"> </span><span class="n">Promise</span><span class="p">.</span><span class="n">all</span><span class="w"> </span><span class="p">(</span><span class="n">index</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
 <span class="w">  </span><span class="n">at</span><span class="w"> </span><span class="n">Emitter</span><span class="p">.</span><span class="n">emitInit</span><span class="w"> </span><span class="p">(</span><span class="n">file</span><span class="o">:</span><span class="c1">///Users/marsyas/Documents/Development/Projects/fx-engine/node_modules/.pnpm/@directus+api@13.0.0/node_modules/@directus/api/dist/emitter.js:55:13)</span>
 </code></pre></div>
 
 <h3>解决方案</h3>
 <p>重写 source-map-support 的 retrieveFile 方法，去掉文件路径中的时间戳参数即可。</p>
 <div class="highlight"><pre><span></span><code><span class="nx">sourceMapSupport</span><span class="p">.</span><span class="nx">install</span><span class="p">({</span>
-    <span class="nx">retrieveFile</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">path</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">path</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">trim</span><span class="p">();</span>
-        <span class="nx">path</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/\?t=\d+/</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">);</span>
-        <span class="k">if</span> <span class="p">(</span><span class="sr">/^file:/</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">path</span><span class="p">))</span> <span class="p">{</span>
-        <span class="nx">path</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/file:\/\/\/(\w:)?/</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">protocol</span><span class="p">,</span> <span class="nx">drive</span><span class="p">)</span> <span class="p">{</span>
-            <span class="k">return</span> <span class="nx">drive</span>
-            <span class="o">?</span> <span class="s2">&quot;&quot;</span> 
-            <span class="o">:</span> <span class="s2">&quot;/&quot;</span><span class="p">;</span> 
-        <span class="p">});</span>
-        <span class="p">}</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nx">path</span> <span class="ow">in</span> <span class="nx">fileContentsCache</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="nx">fileContentsCache</span><span class="p">[</span><span class="nx">path</span><span class="p">];</span>
-        <span class="p">}</span>
+<span class="w">    </span><span class="nx">retrieveFile</span><span class="o">:</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="p">(</span><span class="nx">path</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">path</span><span class="p">.</span><span class="nx">trim</span><span class="p">();</span>
+<span class="w">        </span><span class="nx">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">path</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/\?t=\d+/</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="sr">/^file:/</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">path</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">path</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/file:\/\/\/(\w:)?/</span><span class="p">,</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="p">(</span><span class="nx">protocol</span><span class="p">,</span><span class="w"> </span><span class="nx">drive</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="nx">drive</span>
+<span class="w">            </span><span class="o">?</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="w"> </span>
+<span class="w">            </span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;/&quot;</span><span class="p">;</span><span class="w"> </span>
+<span class="w">        </span><span class="p">});</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">path</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nx">fileContentsCache</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nx">fileContentsCache</span><span class="p">[</span><span class="nx">path</span><span class="p">];</span>
+<span class="w">        </span><span class="p">}</span>
 
-        <span class="kd">var</span> <span class="nx">contents</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">;</span>
-        <span class="k">try</span> <span class="p">{</span>
-        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">fs</span><span class="p">)</span> <span class="p">{</span>
-            <span class="kd">var</span> <span class="nx">xhr</span> <span class="o">=</span> <span class="ow">new</span> <span class="nx">XMLHttpRequest</span><span class="p">();</span>
-            <span class="nx">xhr</span><span class="p">.</span><span class="nx">open</span><span class="p">(</span><span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="nx">path</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
-            <span class="nx">xhr</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
-            <span class="k">if</span> <span class="p">(</span><span class="nx">xhr</span><span class="p">.</span><span class="nx">readyState</span> <span class="o">===</span> <span class="mf">4</span> <span class="o">&amp;&amp;</span> <span class="nx">xhr</span><span class="p">.</span><span class="nx">status</span> <span class="o">===</span> <span class="mf">200</span><span class="p">)</span> <span class="p">{</span>
-            <span class="nx">contents</span> <span class="o">=</span> <span class="nx">xhr</span><span class="p">.</span><span class="nx">responseText</span><span class="p">;</span>
-            <span class="p">}</span>
-        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">fs</span><span class="p">.</span><span class="nx">existsSync</span><span class="p">(</span><span class="nx">path</span><span class="p">))</span> <span class="p">{</span>
-            <span class="nx">contents</span> <span class="o">=</span> <span class="nx">fs</span><span class="p">.</span><span class="nx">readFileSync</span><span class="p">(</span><span class="nx">path</span><span class="p">,</span> <span class="s2">&quot;utf8&quot;</span><span class="p">);</span>
-        <span class="p">}</span>
-        <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">er</span><span class="p">)</span> <span class="p">{</span>
-        <span class="p">}</span>
+<span class="w">        </span><span class="kd">var</span><span class="w"> </span><span class="nx">contents</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">fs</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="kd">var</span><span class="w"> </span><span class="nx">xhr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">XMLHttpRequest</span><span class="p">();</span>
+<span class="w">            </span><span class="nx">xhr</span><span class="p">.</span><span class="nx">open</span><span class="p">(</span><span class="s2">&quot;GET&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">path</span><span class="p">,</span><span class="w"> </span><span class="kc">false</span><span class="p">);</span>
+<span class="w">            </span><span class="nx">xhr</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">xhr</span><span class="p">.</span><span class="nx">readyState</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mf">4</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">xhr</span><span class="p">.</span><span class="nx">status</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mf">200</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">contents</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">xhr</span><span class="p">.</span><span class="nx">responseText</span><span class="p">;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">fs</span><span class="p">.</span><span class="nx">existsSync</span><span class="p">(</span><span class="nx">path</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">contents</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">fs</span><span class="p">.</span><span class="nx">readFileSync</span><span class="p">(</span><span class="nx">path</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;utf8&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="nx">er</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="p">}</span>
 
-        <span class="k">return</span> <span class="p">(</span><span class="nx">fileContentsCache</span><span class="p">[</span><span class="nx">path</span><span class="p">]</span> <span class="o">=</span> <span class="nx">contents</span><span class="p">);</span>
-    <span class="p">},</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="nx">fileContentsCache</span><span class="p">[</span><span class="nx">path</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">contents</span><span class="p">);</span>
+<span class="w">    </span><span class="p">},</span>
 <span class="p">});</span>
 </code></pre></div>
 
 <p>重新打印错误日志，即可看到正确的 typescript 堆栈信息：</p>
-<div class="highlight"><pre><span></span><code><span class="p">[</span><span class="n">ERROR</span><span class="p">]</span><span class="w"> </span><span class="n">directus</span><span class="o">-</span><span class="n">extension</span><span class="o">-</span><span class="n">FX</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">setup</span><span class="w"> </span><span class="n">error</span><span class="w"> </span><span class="n">Error</span><span class="o">:</span><span class="w"> </span><span class="n">mock</span><span class="w"> </span><span class="n">error</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="p">[</span><span class="n">ERROR</span><span class="p">]</span><span class="w"> </span><span class="n">directus</span><span class="o">-</span><span class="n">extension</span><span class="o">-</span><span class="n">FX</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">setup</span><span class="w"> </span><span class="n">error</span><span class="w"> </span><span class="n">Error</span><span class="o">:</span><span class="w"> </span><span class="n">mock</span><span class="w"> </span><span class="n">error</span>
 <span class="w">    </span><span class="n">at</span><span class="w"> </span><span class="n">Object</span><span class="p">.</span><span class="n">setup</span><span class="w"> </span><span class="p">(</span><span class="n">file</span><span class="o">:</span><span class="c1">///Users/marsyas/Documents/Development/Projects/fx-engine/extensions/directus-extension-FX/src/mock/index.ts:32:11)</span>
 <span class="w">    </span><span class="n">at</span><span class="w"> </span><span class="n">EventEmitter</span><span class="p">.</span><span class="o">&lt;</span><span class="n">anonymous</span><span class="o">&gt;</span><span class="w"> </span><span class="p">(</span><span class="n">file</span><span class="o">:</span><span class="c1">///Users/marsyas/Documents/Development/Projects/fx-engine/extensions/directus-extension-FX/src/hooks/init/index.ts:53:18)</span>
-<span class="w">    </span><span class="n">at</span><span class="w"> </span><span class="n">processTicksAndRejections</span><span class="w"> </span><span class="p">(</span><span class="n">node</span><span class="o">:</span><span class="n">internal</span><span class="o">/</span><span class="n">process</span><span class="o">/</span><span class="n">task_queues</span><span class="o">:</span><span class="mi">95</span><span class="o">:</span><span class="mi">5</span><span class="p">)</span><span class="w"></span>
-<span class="w">    </span><span class="n">at</span><span class="w"> </span><span class="n">async</span><span class="w"> </span><span class="n">Promise</span><span class="p">.</span><span class="n">all</span><span class="w"> </span><span class="p">(</span><span class="n">index</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">at</span><span class="w"> </span><span class="n">processTicksAndRejections</span><span class="w"> </span><span class="p">(</span><span class="n">node</span><span class="o">:</span><span class="n">internal</span><span class="o">/</span><span class="n">process</span><span class="o">/</span><span class="n">task_queues</span><span class="o">:</span><span class="mi">95</span><span class="o">:</span><span class="mi">5</span><span class="p">)</span>
+<span class="w">    </span><span class="n">at</span><span class="w"> </span><span class="n">async</span><span class="w"> </span><span class="n">Promise</span><span class="p">.</span><span class="n">all</span><span class="w"> </span><span class="p">(</span><span class="n">index</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
 <span class="w">    </span><span class="n">at</span><span class="w"> </span><span class="n">Emitter</span><span class="p">.</span><span class="n">emitInit</span><span class="w"> </span><span class="p">(</span><span class="n">file</span><span class="o">:</span><span class="c1">///Users/marsyas/Documents/Development/Projects/fx-engine/node_modules/.pnpm/@directus+api@13.0.0/node_modules/@directus/api/dist/emitter.js:55:13)</span>
 </code></pre></div>
 
 <h3>原因</h3>
 <p>继续追踪directus源码，发现在加载extensions时，为了支持热更新，使用了Cache Break技术，也就是会在路径后面加上时间戳参数，比如:</p>
 <div class="highlight"><pre><span></span><code><span class="c1">//api/src/extensions.ts</span>
-<span class="kd">const</span> <span class="nx">endpointInstance</span>: <span class="kt">EndpointConfig</span> <span class="o">|</span> <span class="p">{</span> <span class="nx">default</span>: <span class="kt">EndpointConfig</span> <span class="p">}</span> <span class="o">=</span> <span class="k">await</span> <span class="k">import</span><span class="p">(</span>
-    <span class="sb">`./</span><span class="si">${</span><span class="nx">pathToRelativeUrl</span><span class="p">(</span><span class="nx">endpointPath</span><span class="p">,</span> <span class="nx">__dirname</span><span class="p">)</span><span class="si">}</span><span class="sb">?t=</span><span class="si">${</span><span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">()</span><span class="si">}</span><span class="sb">`</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">endpointInstance</span><span class="o">:</span><span class="w"> </span><span class="kt">EndpointConfig</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">default</span><span class="o">:</span><span class="w"> </span><span class="kt">EndpointConfig</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="k">import</span><span class="p">(</span>
+<span class="w">    </span><span class="sb">`./</span><span class="si">${</span><span class="nx">pathToRelativeUrl</span><span class="p">(</span><span class="nx">endpointPath</span><span class="p">,</span><span class="w"> </span><span class="nx">__dirname</span><span class="p">)</span><span class="si">}</span><span class="sb">?t=</span><span class="si">${</span><span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">()</span><span class="si">}</span><span class="sb">`</span>
 <span class="p">);</span>
 </code></pre></div>
 
@@ -149,7 +149,7 @@
 					<div class="col-md-3">
 						<h4>Categories</h4>
 						<ul class="list-unstyled my-list-style">
-							<li><a href="/category/技术.html">技术 (6)</a></li>
+							<li><a href="/category/技术.html">技术 (7)</a></li>
 						</ul>
 					</div>
 					<div class="col-md-3">

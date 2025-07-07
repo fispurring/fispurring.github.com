@@ -30,7 +30,7 @@
 		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
 			<h4 itemprop="name">Marsyas</h4>
 		</span>
-		<time datetime="2013-06-19T00:00:00+08:00" itemprop="datePublished">Wed 19 June 2013</time>
+		<time datetime="2013-06-19T00:00:00+08:00" itemprop="datePublished">周三 19 六月 2013</time>
 	</div>
 	<div>
 		Category:
@@ -53,12 +53,12 @@
 	</div>
 	<div itemprop="articleBody" class="article-body"><p>由于在同一游戏中，不同关卡在玩法上有许多相同的地方，为了能够让代码复用以简化编程，我往往会把相同的部分放在一个关卡原型里，让不同的卡关能够继承它。然而，javascript本身没有类与继承的概念，这就需要用其它的方法来模拟继承，其中，最为常见的一种方法就是使用原型（prototype）。</p>
 <p>在网上查了些文章与例子之后，我在CocosBuiler中写下的代码大概是这样子的：</p>
-<div class="highlight"><pre><span></span><code><span class="kd">var</span> <span class="nx">Level1</span><span class="o">=</span><span class="kd">function</span><span class="p">()</span> <span class="p">{};</span>
-<span class="nx">Level1</span><span class="p">.</span><span class="nx">prototype</span><span class="o">=</span><span class="ow">new</span> <span class="nx">LevelBase</span><span class="p">();</span>
+<div class="highlight"><pre><span></span><code><span class="kd">var</span><span class="w"> </span><span class="nx">Level1</span><span class="o">=</span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{};</span>
+<span class="nx">Level1</span><span class="p">.</span><span class="nx">prototype</span><span class="o">=</span><span class="ow">new</span><span class="w"> </span><span class="nx">LevelBase</span><span class="p">();</span>
 <span class="nx">Level1</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="kr">constructor</span><span class="o">=</span><span class="nx">Level1</span><span class="p">;</span>
-<span class="nx">Level1</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">onDidLoadFromCCB</span><span class="o">=</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-    <span class="nx">LevelBase</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">onDidLoadFromCCB</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span><span class="nx">arguments</span><span class="p">);</span>
-    <span class="c1">//Do Something</span>
+<span class="nx">Level1</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">onDidLoadFromCCB</span><span class="o">=</span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">LevelBase</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">onDidLoadFromCCB</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span><span class="nx">arguments</span><span class="p">);</span>
+<span class="w">    </span><span class="c1">//Do Something</span>
 <span class="p">};</span>
 </code></pre></div>
 
@@ -67,23 +67,23 @@
 </code></pre></div>
 
 <p>在C++中找到相应的报错语句是这样的：</p>
-<div class="highlight"><pre><span></span><code><span class="n">JSObject</span><span class="w"> </span><span class="o">*</span><span class="n">obj</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span><span class="w"></span>
-<span class="n">cocos2d</span><span class="o">::</span><span class="n">CCNode</span><span class="o">*</span><span class="w"> </span><span class="n">cobj</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span><span class="w"></span>
-<span class="n">obj</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">JS_THIS_OBJECT</span><span class="p">(</span><span class="n">cx</span><span class="p">,</span><span class="w"> </span><span class="n">vp</span><span class="p">);</span><span class="w"></span>
-<span class="n">js_proxy_t</span><span class="w"> </span><span class="o">*</span><span class="n">proxy</span><span class="p">;</span><span class="w"> </span><span class="n">JS_GET_NATIVE_PROXY</span><span class="p">(</span><span class="n">proxy</span><span class="p">,</span><span class="w"> </span><span class="n">obj</span><span class="p">);</span><span class="w"></span>
-<span class="n">cobj</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">cocos2d</span><span class="o">::</span><span class="n">CCNode</span><span class="w"> </span><span class="o">*</span><span class="p">)(</span><span class="n">proxy</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">proxy</span><span class="o">-&gt;</span><span class="n">ptr</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span><span class="w"></span>
-<span class="n">JSB_PRECONDITION2</span><span class="p">(</span><span class="w"> </span><span class="n">cobj</span><span class="p">,</span><span class="w"> </span><span class="n">cx</span><span class="p">,</span><span class="w"> </span><span class="n">JS_FALSE</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Invalid Native Object&quot;</span><span class="p">);</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="n">JSObject</span><span class="w"> </span><span class="o">*</span><span class="n">obj</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="n">cocos2d</span><span class="o">::</span><span class="n">CCNode</span><span class="o">*</span><span class="w"> </span><span class="n">cobj</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="n">obj</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">JS_THIS_OBJECT</span><span class="p">(</span><span class="n">cx</span><span class="p">,</span><span class="w"> </span><span class="n">vp</span><span class="p">);</span>
+<span class="n">js_proxy_t</span><span class="w"> </span><span class="o">*</span><span class="n">proxy</span><span class="p">;</span><span class="w"> </span><span class="n">JS_GET_NATIVE_PROXY</span><span class="p">(</span><span class="n">proxy</span><span class="p">,</span><span class="w"> </span><span class="n">obj</span><span class="p">);</span>
+<span class="n">cobj</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">cocos2d</span><span class="o">::</span><span class="n">CCNode</span><span class="w"> </span><span class="o">*</span><span class="p">)(</span><span class="n">proxy</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">proxy</span><span class="o">-&gt;</span><span class="n">ptr</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span>
+<span class="n">JSB_PRECONDITION2</span><span class="p">(</span><span class="w"> </span><span class="n">cobj</span><span class="p">,</span><span class="w"> </span><span class="n">cx</span><span class="p">,</span><span class="w"> </span><span class="n">JS_FALSE</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Invalid Native Object&quot;</span><span class="p">);</span>
 </code></pre></div>
 
 <p>这样看报错的原因只有可能是rootNode出了问题，于是把rootNode打印出来，结果显示确实是Sprite类型没错。那么是本地取this对象的时候出了问题?SpiderMonkey、CocosBuilder、cocos2d-x的Javascript binding都有可能与这个问题有关，从底层入手有点大海捞针的感觉，那么就从顶层的逻辑入手。</p>
 <p>既然是重玩本关的时候出错，首先要考虑的就是有些地方没有释放，接下来做了些测试，发现把要继承的代码直接写在关卡类里面，不经过继承就不会出现这个问题，重新审视那段继承的代码，想会不会是因为用了LevelBase的实例作原型，导致这个LevelBase实例连带里面成员一起没有释放，所以才出现了这个问题。</p>
 <p>抱着姑且一试的心情，把上面那段继承的代码改成：</p>
-<div class="highlight"><pre><span></span><code><span class="kd">var</span> <span class="nx">Level1</span><span class="o">=</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-    <span class="nx">LevelBase</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span><span class="nx">arguments</span><span class="p">);</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">onDidLoadFromCCB</span><span class="o">=</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-    <span class="nx">LevelBase</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">onDidLoadFromCCB</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span><span class="nx">arguments</span><span class="p">);</span>
-    <span class="c1">//Do Something</span>
-    <span class="p">};</span>
+<div class="highlight"><pre><span></span><code><span class="kd">var</span><span class="w"> </span><span class="nx">Level1</span><span class="o">=</span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">LevelBase</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span><span class="nx">arguments</span><span class="p">);</span>
+<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="nx">onDidLoadFromCCB</span><span class="o">=</span><span class="kd">function</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">LevelBase</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">onDidLoadFromCCB</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span><span class="nx">arguments</span><span class="p">);</span>
+<span class="w">    </span><span class="c1">//Do Something</span>
+<span class="w">    </span><span class="p">};</span>
 <span class="p">};</span>
 
 <span class="nx">Level1</span><span class="p">.</span><span class="nx">prototype</span><span class="o">=</span><span class="nx">LevelBase</span><span class="p">.</span><span class="nx">prototype</span><span class="p">;</span>
@@ -117,7 +117,7 @@
 					<div class="col-md-3">
 						<h4>Categories</h4>
 						<ul class="list-unstyled my-list-style">
-							<li><a href="/category/技术.html">技术 (6)</a></li>
+							<li><a href="/category/技术.html">技术 (7)</a></li>
 						</ul>
 					</div>
 					<div class="col-md-3">

@@ -2,8 +2,8 @@
 <html lang="cn">
 <head>
 	<meta charset="utf-8">
-	<title>windows — Code Tip</title>
-	<meta name="description" content="All posts which refer to tag windows">
+	<title>编译llama-cpp-cuda — Code Tip</title>
+	<meta name="description" content="Title: 编译llama-cpp-cuda; Date: 2025-07-06; Author: Marsyas">
 	<meta name="author" content="Marsyas">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
@@ -24,15 +24,45 @@
 			<br>	</div>
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
-<h1>Tag <small>windows</small></h1>
-<table class="table">
-    <tbody>
-        <tr>
-        <td>05 5月 2013</td>
-        <td><a href='/yong-cocos2d-xkai-fa-windowsyou-xi.html'>用Cocos2d-x开发Windows游戏</a></td>
-        </tr>
-    </tbody>
-</table>
+<div class="article" itemscope itemtype="http://schema.org/BlogPosting">
+	<div class="text-center article-header">
+		<h1 itemprop="name headline" class="article-title">编译llama-cpp-cuda</h1>
+		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
+			<h4 itemprop="name">Marsyas</h4>
+		</span>
+		<time datetime="2025-07-06T20:00:00+08:00" itemprop="datePublished">周日 06 七月 2025</time>
+	</div>
+	<div>
+		Category:
+		<span itemprop="articleSection">
+			<a href="/category/ji-zhu.html" rel="category">技术</a>
+		</span>
+	</div>
+ 
+	<div>
+		Tags:
+		<span itemprop="keywords">
+			<a href="/tag/llama-cpp-python.html" rel="tag">llama-cpp-python</a>
+		</span>
+		<span itemprop="keywords">
+			<a href="/tag/python.html" rel="tag">python</a>
+		</span>
+		<span itemprop="keywords">
+			<a href="/tag/llamacpp.html" rel="tag">llama.cpp</a>
+		</span>
+	</div>
+	<div itemprop="articleBody" class="article-body"><p>llama-cpp-python 0.3.4版本（官方在win上最新的预编译cuda版本）不支持qwen3和gemma3架构，只能自己编译最新的llama-cpp-python cuda版本。
+编译期间碰到“No CUDA toolset found.”报错，copilot询问无果，在 <a href="https://github.com/abetlen/llama-cpp-python/issues/247#issuecomment-1848769561">这里</a> 找到了解决方法。
+编译步骤总结如下：<br>
+1. 安装Build Tools for Visual Studio 2022<br>
+2. 把 <code>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.  8\extras\visual_studio_integration\MSBuildExtensions</code> 中的文件全部复制到 <code>C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\MSBuild\Microsoft\VC\v170\BuildCustomizations</code>中<br>
+3. 安装llama-cpp-python</p>
+<div class="highlight"><pre><span></span><code> $env:CMAKE_ARGS=&quot;-DGGML_CUDA=on&quot;
+ pip install llama-cpp-python --no-cache-dir 
+</code></pre></div></div>
+	<hr>
+	<h2>Comments</h2>
+</div>
 		</div>
 	</div> 	<!-- <hr> -->
 </div> <!-- /container -->

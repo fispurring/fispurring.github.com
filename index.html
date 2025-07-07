@@ -27,10 +27,40 @@
         
         
 <div class="article" itemscope itemtype="http://schema.org/BlogPosting">
+	<a href="/bian-yi-llama-cpp-cuda.html">
+		<h2 itemprop="name headline">编译llama-cpp-cuda</h2>
+	</a>
+	<time datetime="2025-07-06T20:00:00+08:00" itemprop="datePublished">周日 06 七月 2025</time>
+	&nbsp;—&nbsp;
+	<span itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+		<span itemprop="name">Marsyas</span>
+	</span>
+	<div class="summary"><p>llama-cpp-python 0.3.4版本（官方在win上最新的预编译cuda版本）不支持qwen3和gemma3架构，只能自己编译最新的llama-cpp-python cuda版本。
+编译期间碰到“No CUDA toolset found.”报错，copilot询问无果，在 <a href="https://github.com/abetlen/llama-cpp-python/issues/247#issuecomment-1848769561">这里</a> 找到了解决方法。
+编译步骤 …</p></div>
+	Category:
+	<span itemprop="articleSection">
+		<a href="/category/ji-zhu.html" rel="category">技术</a>
+	</span>
+	Tags:
+ 
+	<span itemprop="keywords">
+		<a href="/tag/llama-cpp-python.html" rel="tag">llama-cpp-python</a>
+	</span>
+	<span itemprop="keywords">
+		<a href="/tag/python.html" rel="tag">python</a>
+	</span>
+	<span itemprop="keywords">
+		<a href="/tag/llamacpp.html" rel="tag">llama.cpp</a>
+	</span>
+</div>
+<hr>
+        
+<div class="article" itemscope itemtype="http://schema.org/BlogPosting">
 	<a href="/ji-ge-chang-yong-de-isobiao-zhun.html">
 		<h2 itemprop="name headline">几个常用的ISO标准</h2>
 	</a>
-	<time datetime="2024-11-02T00:00:00+08:00" itemprop="datePublished">Sat 02 November 2024</time>
+	<time datetime="2024-11-02T00:00:00+08:00" itemprop="datePublished">周六 02 十一月 2024</time>
 	&nbsp;—&nbsp;
 	<span itemprop="author" itemscope="" itemtype="http://schema.org/Person">
 		<span itemprop="name">Marsyas</span>
@@ -56,7 +86,7 @@
 	<a href="/directus-da-yin-bu-chu-typescript-dui-zhan.html">
 		<h2 itemprop="name headline">Directus 打印不出 typescript 堆栈</h2>
 	</a>
-	<time datetime="2023-11-15T00:39:00+08:00" itemprop="datePublished">Wed 15 November 2023</time>
+	<time datetime="2023-11-15T00:39:00+08:00" itemprop="datePublished">周三 15 十一月 2023</time>
 	&nbsp;—&nbsp;
 	<span itemprop="author" itemscope="" itemtype="http://schema.org/Person">
 		<span itemprop="name">Marsyas</span>
@@ -65,12 +95,7 @@
 <p>Directus extensions 打印错误日志，只能打印出 javascript 堆栈，无法打印出 typescript 堆栈。</p>
 <h3>排查过程</h3>
 <ul>
-<li>检查了输出目录 dist，发现 dist 目录下有对应的 map 文件，说明 rollup 打包确实生成了 map 文件。</li>
-<li>检查项目，确实安装了 source-map-support，而且在入口文件中引入了 source-map-support/register。</li>
-<li>进一步检查 map 文件， map 文件中确实包含了 typescript 的堆栈信息。</li>
-<li>分析打印出来的堆栈信息，发现堆栈信息中的路径后面带了一个时间戳参数，导致 source-map-support 无法正确解析到源文件。  </li>
-</ul>
-<div class="highlight"><pre><span></span><code><span class="p">[</span><span class="n">ERROR</span><span class="p">]</span><span class="w"> </span><span class="n">directus</span><span class="o">-</span><span class="n">extension</span><span class="o">-</span><span class="n">FX</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">setup</span><span class="w"> </span><span class="n">error</span><span class="w"> </span><span class="n">Error</span><span class="o">:</span><span class="w"> </span><span class="n">mock</span><span class="w"> </span><span class="n">error …</span></code></pre></div></div>
+<li>检查了输出目录 dist，发现 dist 目录下有对应的 map 文 …</li></ul></div>
 	Category:
 	<span itemprop="articleSection">
 		<a href="/category/ji-zhu.html" rel="category">技术</a>
@@ -93,16 +118,13 @@
 	<a href="/wei-xian-de-gc.html">
 		<h2 itemprop="name headline">危险的GC</h2>
 	</a>
-	<time datetime="2013-06-24T00:00:00+08:00" itemprop="datePublished">Mon 24 June 2013</time>
+	<time datetime="2013-06-24T00:00:00+08:00" itemprop="datePublished">周一 24 六月 2013</time>
 	&nbsp;—&nbsp;
 	<span itemprop="author" itemscope="" itemtype="http://schema.org/Person">
 		<span itemprop="name">Marsyas</span>
 	</span>
 	<div class="summary"><p>在用cocos2d-javascript binding作游戏的时候遇到一个莫名其妙崩溃的问题，调用堆栈显示是在GC的时候,执行一个叫做MarkObjectRoot的函数，发生了EXC_BAD_ACCESS错误。</p>
-<p>于是查找了些关于ObjectRoot的信息，这东西主要是为了防止SpiderMonkey执行GC操作的时候把还在使用的Object引用清除掉而存在的，不少地方都在第一次使用Object的时候调用了JS_AddNamedObjectRoot/JS_AddObjectRoot函数，并在释放Object的时候调用JS_RemoveObjectRoot函数。</p>
-<p>联系到前面的错误，很有可能是在什么地方使用Object的时候调用了AddNamedObjectRoot/JS_AddObjectRoot函数，但是在释放的时候没有调用相应的JS_RemoveObjectRoot函数，于是SpiderMonkey并不知道这个Object已经被释放了，GC的时候仍然对它执行了MarkObjectRoot操作，从而引发了这个crash。</p>
-<p>虽然找到了方向，但是cocos2d-x代码中用到Add/Remove ObjectRoot的地方实在太多了，一个个查起来非常的浪费时间，于是反过来使用排除法，把代码注释到不再出现这个问题为止，然后一段一段地还原，找到了这个问题跟addCollisionHandler方法有关。查看本地代码，__jsb_cpSpace_addCollisionHandler这个方法里面确实调用了JS_AddNamedObjectRoot函数，然而JSB_cpSpace_finalize方法里面也调用了相应的JS_RemoveObjectRoot函数，按理说应该没问题才对。</p>
-<p>接着打断点调试，addCollisionHandler方法是在每一关初始化物理环境的时候调用的，这次为了调试方便，我在一关玩完后会执行一次强制GC，发现从第一次玩初始化物理环境，到重玩本关的时候第二次初始化物理环境时（也就是第二次调用addCollisionHandler时），再到第二次玩完本关GC时，JSB_cpSpace_finalize函数都一直没有被调用到,而就在第二次GC的时候，程序崩溃。看来跟我前面猜得差不多，CollisionHandler在第一次GC的时候已经被释放掉了，但是SpiderMonkey不知道，于是第二次GC的时候直接崩溃，在代码里面手动添加了removeCollsionHandler之后，果然没问题了。</p></div>
+<p>于是查找了些关于ObjectRoot的信息，这东西主要是为了防止SpiderMonkey执行GC操作的时候把还在使用的Object引用清除掉而存在的，不少地方都在 …</p></div>
 	Category:
 	<span itemprop="articleSection">
 		<a href="/category/ji-zhu.html" rel="category">技术</a>
@@ -125,27 +147,12 @@
 	<a href="/cocosbuilderzhong-de-javascriptji-cheng-wen-ti.html">
 		<h2 itemprop="name headline">CocosBuilder中的javascript继承问题</h2>
 	</a>
-	<time datetime="2013-06-19T00:00:00+08:00" itemprop="datePublished">Wed 19 June 2013</time>
+	<time datetime="2013-06-19T00:00:00+08:00" itemprop="datePublished">周三 19 六月 2013</time>
 	&nbsp;—&nbsp;
 	<span itemprop="author" itemscope="" itemtype="http://schema.org/Person">
 		<span itemprop="name">Marsyas</span>
 	</span>
-	<div class="summary"><p>由于在同一游戏中，不同关卡在玩法上有许多相同的地方，为了能够让代码复用以简化编程，我往往会把相同的部分放在一个关卡原型里，让不同的卡关能够继承它。然而，javascript本身没有类与继承的概念，这就需要用其它的方法来模拟继承，其中，最为常见的一种方法就是使用原型（prototype）。</p>
-<p>在网上查了些文章与例子之后，我在CocosBuiler中写下的代码大概是这样子的：</p>
-<div class="highlight"><pre><span></span><code><span class="kd">var</span> <span class="nx">Level1</span><span class="o">=</span><span class="kd">function</span><span class="p">()</span> <span class="p">{};</span>
-<span class="nx">Level1</span><span class="p">.</span><span class="nx">prototype</span><span class="o">=</span><span class="ow">new</span> <span class="nx">LevelBase</span><span class="p">();</span>
-<span class="nx">Level1</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="kr">constructor</span><span class="o">=</span><span class="nx">Level1</span><span class="p">;</span>
-<span class="nx">Level1</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">onDidLoadFromCCB</span><span class="o">=</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-    <span class="nx">LevelBase</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">onDidLoadFromCCB</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,</span><span class="nx">arguments</span><span class="p">);</span>
-    <span class="c1">//Do Something</span>
-<span class="p">};</span>
-</code></pre></div>
-
-<p>第一次运行没问题，然而重玩本关的时候，在一个CCB节点的控制器类中报"Invalid Native Object"错误，报错的地方是调用了该控制器的rootNode的getPosition()函数：</p>
-<div class="highlight"><pre><span></span><code><span class="k">this</span><span class="p">.</span><span class="nx">rootNode</span><span class="p">.</span><span class="nx">getPosition</span><span class="p">()</span>
-</code></pre></div>
-
-<p>在C++中找到相应的报错语句是这样的 …</p></div>
+	<div class="summary"><p>由于在同一游戏中，不同关卡在玩法上有许多相同的地方，为了能够让代码复用以简化编程，我往往会把相同的部分放在 …</p></div>
 	Category:
 	<span itemprop="articleSection">
 		<a href="/category/ji-zhu.html" rel="category">技术</a>
@@ -168,18 +175,12 @@
 	<a href="/hao-wan-de-cocosbuilder.html">
 		<h2 itemprop="name headline">好玩的CocosBuilder</h2>
 	</a>
-	<time datetime="2013-06-11T00:00:00+08:00" itemprop="datePublished">Tue 11 June 2013</time>
+	<time datetime="2013-06-11T00:00:00+08:00" itemprop="datePublished">周二 11 六月 2013</time>
 	&nbsp;—&nbsp;
 	<span itemprop="author" itemscope="" itemtype="http://schema.org/Person">
 		<span itemprop="name">Marsyas</span>
 	</span>
-	<div class="summary"><p>CocosBuilder是一个用于cocos2d的可视化编辑器,属于cocos2d联合发布的一部分。我曾经考虑过用它来做游戏的界面编辑，但是做了个Demo，评估了下之后，还是放弃了这个想法。一方面是感觉CocosBuilder还不太成熟，很多cocos2d的类与方法都不能在CocosBuilder中直接使用，另一方面用cocos2d-x加载ccbi文件之后，需要手动的对场景（或者是节点）里面的成员进行绑定，而我要做的项目单个界面并不复杂，但是界面很多，如果每个界面都手动绑定的话，实际效率上不会有太大的提高,但是项目的复杂度却会大大的增加,再加上当时项目比较紧，没有太多的时间用来学习和尝试CocosBuilder,所以最后选择了放弃。</p>
-<p>前段时间被以前的同学拉去参加黑客马拉松，正好有个机会试试CocosBuilder，发现了不少有趣的东西。</p>
-<h3>CocosPlayer</h3>
-<p>在开发ios游戏的时候，由于必须由XCode进行代码编译，所以像Unity这样的跨平台游戏引擎，在进行真机调试之前，都必须先把做好的项目导出成一个XCode项目，然后编译这个XCode项目来进行真机调试。而用过unity的人应该都很清楚，这个导出的过程非常的缓慢。</p>
-<p>相比之下，CocosPlayer的出现给了用CocosBuilder开发游戏的人一个方便、快捷的真机测试途径。它的原理是通过wifi,CocosBuilder直接把ccbi、js以及资源文件发布给真机上运行的CocosPlayer,CocosPlayer接受完毕之后，运行js文件来开始游戏。这样省去了导出和编译的步骤，只需要一次wifi传输即可。(当然CocosPlayer本身的编译过程还是要有的，只是这个编译并不频繁，一般只是在你第一次运行或者修改本地代码的时候才需要执行)</p>
-<h3>一键发布</h3>
-<p>CocosBuilder支持一键发布多平台（ios、android、html5 …</p></div>
+	<div class="summary"><p>CocosBuilder是一个用于cocos2d的可视化编辑器,属于cocos2d联合发布的一部分。我曾经考虑过用它来做游戏的界面编辑，但是做了个Demo，评估了下之后，还是放弃了这个想法。一方面是感觉CocosBuilder还不太成熟，很 …</p></div>
 	Category:
 	<span itemprop="articleSection">
 		<a href="/category/ji-zhu.html" rel="category">技术</a>
@@ -202,22 +203,12 @@
 	<a href="/yong-cocos2d-xkai-fa-windowsyou-xi.html">
 		<h2 itemprop="name headline">用Cocos2d-x开发Windows游戏</h2>
 	</a>
-	<time datetime="2013-05-05T00:00:00+08:00" itemprop="datePublished">Sun 05 May 2013</time>
+	<time datetime="2013-05-05T00:00:00+08:00" itemprop="datePublished">周日 05 五月 2013</time>
 	&nbsp;—&nbsp;
 	<span itemprop="author" itemscope="" itemtype="http://schema.org/Person">
 		<span itemprop="name">Marsyas</span>
 	</span>
-	<div class="summary"><p>虽然在cocos2d-x支持的平台中包括Windows、Mac、Linux这样的传统电脑平台，但是这些平台只是被视为开发环境而存在的，对于在这些平台上面发布游戏，cocos2d-x本身没有提供官方的解决方案。然而，这些平台（尤其是Windows）拥有的用户数量不可忽视，既然cocos2d-x已经兼容了这些平台，那么我们在其基础上进行一些拓展，使得用cocos2d-x制作的游戏能够在这些平台上面发布，何乐而不为呢。</p>
-<h3>输入</h3>
-<p>手机游戏与电脑游戏最大的区别是输入方式的不同，手机主要靠触摸屏输入，而电脑主要使用鼠标、键盘，cocos2d-x本身可以通过触摸屏的方式来接收鼠标输入，所以我们要做的就是让cocos2d-x能够接收键盘输入。</p>
-<div class="highlight"><pre><span></span><code>AccelerometerKeyHook
-</code></pre></div>
-
-<p>通过跟进查看cocos2d-x的源代码，我们不难发现触摸屏的消息处理函数(ccTouchesBegan之类的)是由CCTouchDispatcher调用的，而CCTouchDispatcher的消息处理函数又是由CCEGLView调用的，在CCEGLView里面我们找到了WindowProc( UINT , WPARAM , LPARAM )这个函数，玩过Windows编程的同学都兴奋起来了吧。没错，这货就是用来接收各种窗口消息的，通过在这个函数里面处理WM_KEYDOWN、WM_KEYUP、WM_CHAR等消息，我们就可以达到响应键盘输入的目的。</p>
-<p>但是慢着，直接在WindowProc函数里面处理键盘消息会破坏引擎的源代码，而且不方便代码重用。查看WindowProc函数，发现WM_KEYDOWN、WM_KEYUP、WM_CHAR等消息都会调用一个叫做m_lpfnAccelerometerKeyHook的钩子函数：</p>
-<div class="highlight"><pre><span></span><code><span class="k">if</span><span class="p">(</span><span class="n">m_lpfnAccelerometerKeyHook</span><span class="o">!=</span><span class="nb">NULL</span><span class="p">)</span><span class="w"></span>
-<span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="p">(</span><span class="o">*</span><span class="n">m_lpfnAccelerometer …</span></code></pre></div></div>
+	<div class="summary"><p>虽然在cocos2d-x支持的平台中包括Windows、Mac、Linux这样的传统电脑平台，但是这些平台只是被视为开发环境而存在的，对于在这些平台上面发布游戏，cocos2d-x本身没有提供官方的解决方案。然而，这些平台（尤其是Windows）拥 …</p></div>
 	Category:
 	<span itemprop="articleSection">
 		<a href="/category/ji-zhu.html" rel="category">技术</a>
@@ -264,7 +255,7 @@
 					<div class="col-md-3">
 						<h4>Categories</h4>
 						<ul class="list-unstyled my-list-style">
-							<li><a href="/category/技术.html">技术 (6)</a></li>
+							<li><a href="/category/技术.html">技术 (7)</a></li>
 						</ul>
 					</div>
 					<div class="col-md-3">

@@ -30,7 +30,7 @@
 		<span itemprop="author" itemscope itemtype="http://schema.org/Person">
 			<h4 itemprop="name">Marsyas</h4>
 		</span>
-		<time datetime="2013-05-05T00:00:00+08:00" itemprop="datePublished">Sun 05 May 2013</time>
+		<time datetime="2013-05-05T00:00:00+08:00" itemprop="datePublished">周日 05 五月 2013</time>
 	</div>
 	<div>
 		Category:
@@ -56,25 +56,25 @@
 
 <p>通过跟进查看cocos2d-x的源代码，我们不难发现触摸屏的消息处理函数(ccTouchesBegan之类的)是由CCTouchDispatcher调用的，而CCTouchDispatcher的消息处理函数又是由CCEGLView调用的，在CCEGLView里面我们找到了WindowProc( UINT , WPARAM , LPARAM )这个函数，玩过Windows编程的同学都兴奋起来了吧。没错，这货就是用来接收各种窗口消息的，通过在这个函数里面处理WM_KEYDOWN、WM_KEYUP、WM_CHAR等消息，我们就可以达到响应键盘输入的目的。</p>
 <p>但是慢着，直接在WindowProc函数里面处理键盘消息会破坏引擎的源代码，而且不方便代码重用。查看WindowProc函数，发现WM_KEYDOWN、WM_KEYUP、WM_CHAR等消息都会调用一个叫做m_lpfnAccelerometerKeyHook的钩子函数：</p>
-<div class="highlight"><pre><span></span><code><span class="k">if</span><span class="p">(</span><span class="n">m_lpfnAccelerometerKeyHook</span><span class="o">!=</span><span class="nb">NULL</span><span class="p">)</span><span class="w"></span>
-<span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="p">(</span><span class="o">*</span><span class="n">m_lpfnAccelerometer</span><span class="p">)(</span><span class="n">message</span><span class="p">,</span><span class="n">wParam</span><span class="p">,</span><span class="n">lParam</span><span class="p">);</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="k">if</span><span class="p">(</span><span class="n">m_lpfnAccelerometerKeyHook</span><span class="o">!=</span><span class="nb">NULL</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="p">(</span><span class="o">*</span><span class="n">m_lpfnAccelerometer</span><span class="p">)(</span><span class="n">message</span><span class="p">,</span><span class="n">wParam</span><span class="p">,</span><span class="n">lParam</span><span class="p">);</span>
+<span class="p">}</span>
 </code></pre></div>
 
 <p>再看看这个函数指针的类型:</p>
-<div class="highlight"><pre><span></span><code><span class="n">typdef</span><span class="w"> </span><span class="nf">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">LPFN_ACCELEROMETER_KEYHOOK</span><span class="p">)(</span><span class="n">UINT</span><span class="w"> </span><span class="n">message</span><span class="p">,</span><span class="n">WPARAM</span><span class="w"> </span><span class="n">wParam</span><span class="p">,</span><span class="n">LPARAM</span><span class="w"> </span><span class="n">lParam</span><span class="p">);</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="n">typdef</span><span class="w"> </span><span class="nf">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">LPFN_ACCELEROMETER_KEYHOOK</span><span class="p">)(</span><span class="n">UINT</span><span class="w"> </span><span class="n">message</span><span class="p">,</span><span class="n">WPARAM</span><span class="w"> </span><span class="n">wParam</span><span class="p">,</span><span class="n">LPARAM</span><span class="w"> </span><span class="n">lParam</span><span class="p">);</span>
 </code></pre></div>
 
 <p>OK,这个就是我们要找的东西了。我们只要写一个自己的消息处理函数，然后赋值给这个函数指针就行了：</p>
 <div class="highlight"><pre><span></span><code><span class="c1">//声明函数</span>
-<span class="kt">void</span><span class="w"> </span><span class="nf">wndKeyProc</span><span class="p">(</span><span class="n">UINT</span><span class="w"> </span><span class="n">message</span><span class="p">,</span><span class="n">WPARAM</span><span class="w"> </span><span class="n">wParam</span><span class="p">,</span><span class="n">LPARAM</span><span class="w"> </span><span class="n">kParam</span><span class="p">)</span><span class="w"></span>
-<span class="p">{</span><span class="w"></span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">wndKeyProc</span><span class="p">(</span><span class="n">UINT</span><span class="w"> </span><span class="n">message</span><span class="p">,</span><span class="n">WPARAM</span><span class="w"> </span><span class="n">wParam</span><span class="p">,</span><span class="n">LPARAM</span><span class="w"> </span><span class="n">kParam</span><span class="p">)</span>
+<span class="p">{</span>
 <span class="w">    </span><span class="c1">//TODO</span>
-<span class="p">}</span><span class="w"></span>
+<span class="p">}</span>
 
 <span class="c1">//设置函数</span>
-<span class="n">CCDirector</span><span class="o">::</span><span class="n">sharedDirector</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">getOpenGLView</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">setAccelerometerKeyHook</span><span class="p">(</span><span class="o">&amp;</span><span class="n">wndKeyProc</span><span class="p">);</span><span class="w"></span>
+<span class="n">CCDirector</span><span class="o">::</span><span class="n">sharedDirector</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">getOpenGLView</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">setAccelerometerKeyHook</span><span class="p">(</span><span class="o">&amp;</span><span class="n">wndKeyProc</span><span class="p">);</span>
 </code></pre></div>
 
 <p>相关代码参考<a href="https://github.com/xyhl515/Erratic/tree/master/cocos2dx-extensions/Keyboard">这里</a></p>
@@ -108,7 +108,7 @@
 					<div class="col-md-3">
 						<h4>Categories</h4>
 						<ul class="list-unstyled my-list-style">
-							<li><a href="/category/技术.html">技术 (6)</a></li>
+							<li><a href="/category/技术.html">技术 (7)</a></li>
 						</ul>
 					</div>
 					<div class="col-md-3">
